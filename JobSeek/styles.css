@@ -8,14 +8,14 @@ body{
 .header-container {
   display: grid;
   grid-template-columns: auto auto auto;
-  max-height: 50px;
+  max-height: 60px;
   margin: 0px;
 }
 
 .header-container .logo img{
-  margin: 8px 20px;
-  max-height: 35px;
-  max-width: 35px;
+  margin:10px 20px;
+  max-height: 50px;
+  max-width: 150px;
 }
 
 .header-container .nav{
@@ -33,7 +33,7 @@ body{
 
 .header-container .nav ul li{
   align-content: center;
-  margin: 0 20px;
+  margin: 0px 20px;
 }
 
 .header-container .nav ul li a{
@@ -48,7 +48,6 @@ main{
 /* Keep your container styles the same */
 .footer-container {
   min-height: 100px;
-  min-width: 100vh;
   padding: 0 24px;
   display: flex;
   align-items: center;
