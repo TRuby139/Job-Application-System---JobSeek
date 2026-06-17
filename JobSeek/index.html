@@ -1,39 +1,182 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>JobSeek</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Senior Product Experience Designer - JobSeek</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" type="image/png" href="favicon.png">
 </head>
-
 <body>
 
-    <header>
-      <div class="header-container">
-        <div class="logo"><a href="index.html"><img src="logo.png"></a></div>
-        <div class="nav">
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="logo">JobSeek</a>
+
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html" class="nav-link active">Job Search</a></li>
+          <li><a href="tracking.html" class="nav-link">Process Tracking</a></li>
+          <li><a href="management.html" class="nav-link">Job Management</a></li>
+        </ul>
+      </nav>
+
+      <a href="login.html" class="btn-login">Login</a>
+    </div>
+  </header>
+
+  <main class="page-body">
+    <div class="content-grid">
+
+      <!-- LEFT COLUMN: Job details -->
+      <section class="job-main">
+
+        <div class="badge-row">
+          <span class="badge-new">New Opportunity</span>
+          <span class="posted-time">Posted 2 hours ago</span>
         </div>
-      </div>
-    </header>
 
-    <main>
-      <div class="main-container">
+        <h1 class="job-title">Senior Product Experience Designer</h1>
 
-      </div>
-    </main>
+        <div class="job-meta">
+          <span class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 22s7-7.58 7-12.5A7 7 0 0 0 5 9.5C5 14.42 12 22 12 22z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+            San Francisco, CA / Remote
+          </span>
 
-    <footer>
-      <div class ="footer-container">
-        <div class="brand-group">
-          <div class ="brand">JobSeek</div>
-          <div class = "copyright">&#169; 2026 JobSeek. Curate your professional future.</div>
+          <span class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2.5" y="6" width="19" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M2.5 10h19" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="16.5" cy="14" r="1.6" fill="currentColor"/>
+            </svg>
+            $140k – $190k
+          </span>
+
+          <span class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2.5" y="7.5" width="19" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M2.5 13h19" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+            Full-time
+          </span>
         </div>
+
+        <div class="job-image">
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop" alt="Modern open-plan office workspace">
+        </div>
+
+        <h2 class="section-title">The Role</h2>
+        <p class="section-text">
+          We are seeking an Editorial-minded Product Designer to lead the vision for our next-generation career platform. You will be responsible for defining the visual language that makes job seeking feel like a premium experience. You'll bridge the gap between high-end digital publishing and functional SaaS tooling.
+        </p>
+
+        <h2 class="section-title">What you'll do</h2>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span>Architect complex design systems rooted in editorial typography and tonal layering.</span>
+          </li>
+          <li class="check-item">
+            <span class="check-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span>Collaborate with cross-functional teams to translate user pain points into elegant UI solutions.</span>
+          </li>
+          <li class="check-item">
+            <span class="check-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span>Maintain the highest standards of craft, focusing on micro-interactions and motion design.</span>
+          </li>
+        </ul>
+
+      </section>
+
+      <!-- RIGHT COLUMN: Quick apply sidebar -->
+      <aside class="sidebar">
+
+        <div class="quick-apply-card">
+          <h2 class="card-title">Quick Apply</h2>
+
+          <form class="apply-form" onsubmit="return false;">
+            <div class="form-group">
+              <label for="fullName" class="form-label">Full Name</label>
+              <input type="text" id="fullName" class="form-input" placeholder="Jane Doe">
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" id="email" class="form-input" placeholder="jane@example.com">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Resume / CV</label>
+              <label for="resumeUpload" class="upload-box">
+                <span class="upload-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M14 2v6h6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M12 18v-6m0 0l-2.3 2.3M12 12l2.3 2.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="upload-text">Drag and drop your resume here</span>
+                <span class="upload-hint">PDF, DOCX (Max 10MB)</span>
+                <input type="file" id="resumeUpload" accept=".pdf,.docx" hidden>
+              </label>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Application</button>
+
+            <p class="terms-text">
+              By applying, you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>.
+            </p>
+          </form>
+        </div>
+
+        <div class="expert-tip-box">
+          <span class="tip-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.4 10.9c.4.3.6.7.6 1.1v.5h5.6v-.5c0-.4.2-.8.6-1.1A6 6 0 0 0 12 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <div class="tip-content">
+            <p class="tip-title">Expert Tip</p>
+            <p class="tip-text">Applying with a tailored portfolio significantly increases your chances for this role.</p>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <p class="footer-logo">JobSeek</p>
+        <p class="footer-copy">&copy; 2024 JobSeek. Curate your professional future.</p>
       </div>
+      <div class="footer-right">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="contact.html">Contact Support</a>
+      </div>
+    </div>
   </footer>
 
 </body>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JobSeek – Job Management</title>
+  
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">JobSeek</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Job Search</a></li>
+    <li><a href="tracking.html">Process Tracking</a></li>
+    <li><a href="management.html" class="active">Job Management</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-bell">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+      </svg>
+    </div>
+    <div class="nav-avatar"></div>
+  </div>
+</nav>
+
+<!-- PAGE -->
+<main class="page">
+
+  <!-- HERO ROW -->
+  <div class="hero-row">
+    <div>
+      <h1>Job Management</h1>
+      <p>Curate your professional future by managing your active vacancies and analyzing candidate pipelines.</p>
+    </div>
+    <button class="btn-primary">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+      </svg>
+      Post a New Job
+    </button>
+  </div>
+
+  <!-- STATS -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-label">Total Views</div>
+      <div class="stat-value">
+        12.4k
+        <span class="stat-badge badge-green">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline-block;vertical-align:middle"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          +14%
+        </span>
+      </div>
+      <div class="stat-bar-bg"><div class="stat-bar-fill fill-blue"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Applicants</div>
+      <div class="stat-value">
+        842
+        <span class="stat-badge badge-teal">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline-block;vertical-align:middle"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+          48 New
+        </span>
+      </div>
+      <div class="stat-bar-bg"><div class="stat-bar-fill fill-teal"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Interview Rate</div>
+      <div class="stat-value">
+        8.2%
+        <span class="stat-badge badge-orange" style="font-size:12px;">Industry Avg: 5%</span>
+      </div>
+      <div class="stat-bar-bg"><div class="stat-bar-fill fill-red"></div></div>
+    </div>
+  </div>
+
+  <!-- ACTIVE POSTINGS -->
+  <div class="section-card">
+    <div class="section-header">
+      <h2>Active Postings</h2>
+      <div class="search-input">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        Filter jobs...
+      </div>
+    </div>
+
+    <!-- Table header -->
+    <div class="table-head">
+      <span>Job Title &amp; Details</span>
+      <span>Metrics</span>
+      <span>Applicants</span>
+      <span>Status</span>
+      <span style="text-align:right">Actions</span>
+    </div>
+
+    <!-- Row 1 -->
+    <div class="job-row">
+      <div>
+        <div class="job-title">Senior Product Designer</div>
+        <div class="job-meta">
+          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Remote &bull; Full-time
+        </div>
+      </div>
+      <div class="metrics-cell">
+        <div class="metric-pair">
+          <div>
+            <div class="metric-num">1,240</div>
+            <div class="metric-lbl">Views</div>
+          </div>
+          <div>
+            <div class="metric-num">4.2%</div>
+            <div class="metric-lbl">Conv.</div>
+          </div>
+        </div>
+      </div>
+      <div class="avatar-stack">
+        <div class="avatar av1">A</div>
+        <div class="avatar av2">B</div>
+        <div class="avatar av3">C</div>
+        <div class="avatar avatar-more">+49</div>
+      </div>
+      <div><span class="status-badge s-active">Active</span></div>
+      <div><a class="action-link">Manage</a></div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="job-row">
+      <div>
+        <div class="job-title">Staff Frontend Engineer</div>
+        <div class="job-meta">
+          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          New York &bull; Hybrid
+        </div>
+      </div>
+      <div class="metrics-cell">
+        <div class="metric-pair">
+          <div>
+            <div class="metric-num">890</div>
+            <div class="metric-lbl">Views</div>
+          </div>
+          <div>
+            <div class="metric-num">3.1%</div>
+            <div class="metric-lbl">Conv.</div>
+          </div>
+        </div>
+      </div>
+      <div class="avatar-stack">
+        <div class="avatar av4">D</div>
+        <div class="avatar av5">E</div>
+        <div class="avatar avatar-more">+12</div>
+      </div>
+      <div><span class="status-badge s-draft">Draft</span></div>
+      <div><a class="action-link">Publish</a></div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="job-row">
+      <div>
+        <div class="job-title">Content Strategy Lead</div>
+        <div class="job-meta">
+          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          London &bull; Contract
+        </div>
+      </div>
+      <div class="metrics-cell">
+        <div class="metric-pair">
+          <div>
+            <div class="metric-num">2,410</div>
+            <div class="metric-lbl">Views</div>
+          </div>
+          <div>
+            <div class="metric-num">12.8%</div>
+            <div class="metric-lbl">Conv.</div>
+          </div>
+        </div>
+      </div>
+      <div class="avatar-stack">
+        <div class="avatar av2">F</div>
+        <div class="avatar avatar-more">+300</div>
+      </div>
+      <div><span class="status-badge s-closing-soon">Closing Soon</span></div>
+      <div><a class="action-link">Manage</a></div>
+    </div>
+
+    <!-- View Archive -->
+    <div class="view-archive">
+      <a href="#">View Archive &rarr;</a>
+    </div>
+  </div>
+
+  <!-- BOTTOM GRID -->
+  <div class="bottom-grid">
+
+    <!-- Talent Insights -->
+    <div class="talent-card">
+      <h3>
+        <svg width="18" height="18" fill="#FFD700" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Talent Insights
+      </h3>
+      <p>We've noticed a 20% spike in Designer applications from London this week. Consider adjusting your search radius.</p>
+      <button class="btn-white">Download Report</button>
+      <div class="talent-icon">📈</div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="activity-card">
+      <h3>
+        <svg width="16" height="16" fill="#FFD700" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Recent Activity
+      </h3>
+      <ul class="activity-list">
+        <li class="activity-item">
+          <div class="activity-dot dot-green"></div>
+          <div>
+            <div class="activity-text">5 new applications for Staff Frontend Engineer</div>
+            <div class="activity-time">2 minutes ago</div>
+          </div>
+        </li>
+        <li class="activity-item">
+          <div class="activity-dot dot-blue"></div>
+          <div>
+            <div class="activity-text">Job posting "Senior Product Designer" viewed 100 times</div>
+            <div class="activity-time">1 hour ago</div>
+          </div>
+        </li>
+        <li class="activity-item">
+          <div class="activity-dot dot-red"></div>
+          <div>
+            <div class="activity-text">Applicant "Marcus J." moved to Interview stage</div>
+            <div class="activity-time">3 hours ago</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">JobSeek</div>
+      <div class="footer-sub">© 2024 JobSeek. Curate your professional future.</div>
+    </div>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact Support</a>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+<link rel="stylesheet" href="styles.css" />
+</html>
