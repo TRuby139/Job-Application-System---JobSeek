@@ -1124,9 +1124,15 @@ img {
 
 /* -- Table -- */
 
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .table-head {
   display: grid;
   grid-template-columns: 2.4fr 1.2fr 1.1fr 1fr 0.7fr;
+  min-width: 800px;
   padding: 0 0 8px;
   border-bottom: 1px solid #e8eaed;
   margin-bottom: 4px;
@@ -1147,6 +1153,7 @@ img {
 .job-row {
   display: grid;
   grid-template-columns: 2.4fr 1.2fr 1.1fr 1fr 0.7fr;
+  min-width: 800px;
   align-items: center;
   padding: 18px 0;
   border-bottom: 1px solid #f0f2f5;
