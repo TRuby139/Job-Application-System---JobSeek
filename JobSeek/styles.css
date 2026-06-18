@@ -125,6 +125,43 @@ img {
   background: var(--blue-dark);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1001; /* To stay above overlay */
+}
+
+.hamburger-btn span {
+  width: 100%;
+  height: 2px;
+  background-color: var(--black);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger active state (X shape) */
+.hamburger-btn.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.hamburger-btn.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-btn.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
 
 /* ===================================
    FOOTER (shared across all pages)
@@ -1460,12 +1497,36 @@ img {
   }
 }
 
-@media (max-width: 600px) {
-
-  /* -- Header -- */
-  .site-nav {
-    display: none;
+@media (max-width: 740px) {
+  .hamburger-btn {
+    display: flex;
   }
+  
+  .site-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 250px;
+    height: 100vh;
+    background-color: var(--white);
+    flex-direction: column;
+    padding: 80px 24px 24px;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    transition: right 0.3s ease;
+    z-index: 1000;
+  }
+
+  .site-nav.open {
+    right: 0;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 600px) {
 
   /* -- Index Page -- */
   .job-main .job-title {
