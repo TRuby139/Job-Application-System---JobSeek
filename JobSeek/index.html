@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Senior Product Experience Designer - JobSeek</title>
+  <title>Job Search - JobSeek</title>
   <link rel="icon" type="image/png" href="./picture/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
   <!-- ========== HEADER ========== -->
   <header class="site-header">
     <div class="header-inner">
-      <a href="index.html" class="site-logo"><img src="./picture/logo.png"></a>
+      <a href="index.html" class="site-logo"><img src="./picture/logo.png" alt="JobSeek"></a>
 
       <nav class="site-nav" id="mobileNav">
         <ul>
@@ -37,141 +37,184 @@
   </header>
 
   <!-- ========== MAIN CONTENT ========== -->
-  <main class="page-body">
-    <div class="content-grid">
+  <main class="search-page">
+    <div class="search-hero">
+      <div class="search-hero-inner">
+        <h1 class="hero-title">Discover your next <span class="text-blue">career milestone</span>.</h1>
+        <form class="hero-search-bar" onsubmit="return false;">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" placeholder="Job title, keywords, or company" class="hero-input">
+          </div>
+          <div class="search-input-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <input type="text" placeholder="City or remote" class="hero-input">
+          </div>
+          <button type="submit" class="hero-search-btn">Search Jobs</button>
+        </form>
+      </div>
+    </div>
 
-      <!-- LEFT COLUMN: Job details -->
-      <section class="job-main">
-
-        <div class="badge-row">
-          <span class="badge-new">New Opportunity</span>
-          <span class="posted-time">Posted 2 hours ago</span>
+    <div class="search-container">
+      <!-- LEFT SIDEBAR: Filters -->
+      <aside class="filter-sidebar">
+        <div class="filter-header">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          <h2>Refine Search</h2>
         </div>
 
-        <h1 class="job-title">Senior Product Experience Designer</h1>
-
-        <div class="job-meta">
-          <span class="meta-item">
-            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 22s7-7.58 7-12.5A7 7 0 0 0 5 9.5C5 14.42 12 22 12 22z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.8"/>
-            </svg>
-            San Francisco, CA / Remote
-          </span>
-
-          <span class="meta-item">
-            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2.5" y="6" width="19" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/>
-              <path d="M2.5 10h19" stroke="currentColor" stroke-width="1.8"/>
-              <circle cx="16.5" cy="14" r="1.6" fill="currentColor"/>
-            </svg>
-            $140k – $190k
-          </span>
-
-          <span class="meta-item">
-            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2.5" y="7.5" width="19" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/>
-              <path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" stroke="currentColor" stroke-width="1.8"/>
-              <path d="M2.5 13h19" stroke="currentColor" stroke-width="1.8"/>
-            </svg>
+        <div class="filter-group">
+          <h3 class="filter-title">JOB TYPE</h3>
+          <label class="checkbox-label">
+            <input type="checkbox" name="jobType" value="full-time">
+            <span class="custom-checkbox"></span>
             Full-time
-          </span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="jobType" value="contract" checked>
+            <span class="custom-checkbox"></span>
+            Contract
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="jobType" value="remote">
+            <span class="custom-checkbox"></span>
+            Remote
+          </label>
         </div>
 
-        <div class="job-image">
-          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop" alt="Modern open-plan office workspace">
-        </div>
-
-        <h2 class="section-title">The Role</h2>
-        <p class="section-text">
-          We are seeking an Editorial-minded Product Designer to lead the vision for our next-generation career platform. You will be responsible for defining the visual language that makes job seeking feel like a premium experience. You'll bridge the gap between high-end digital publishing and functional SaaS tooling.
-        </p>
-
-        <h2 class="section-title">What you'll do</h2>
-        <ul class="checklist">
-          <li class="check-item">
-            <span class="check-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span>Architect complex design systems rooted in editorial typography and tonal layering.</span>
-          </li>
-          <li class="check-item">
-            <span class="check-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span>Collaborate with cross-functional teams to translate user pain points into elegant UI solutions.</span>
-          </li>
-          <li class="check-item">
-            <span class="check-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span>Maintain the highest standards of craft, focusing on micro-interactions and motion design.</span>
-          </li>
-        </ul>
-
-      </section>
-
-      <!-- RIGHT COLUMN: Quick apply sidebar -->
-      <aside class="sidebar">
-
-        <div class="quick-apply-card">
-          <h2 class="card-title">Quick Apply</h2>
-
-          <form class="apply-form" onsubmit="return false;">
-            <div class="form-group">
-              <label for="fullName" class="form-label">Full Name</label>
-              <input type="text" id="fullName" class="form-input" placeholder="Jane Doe">
+        <div class="filter-group">
+          <h3 class="filter-title">SALARY RANGE</h3>
+          <div class="salary-slider">
+            <div class="slider-track">
+              <div class="slider-fill"></div>
+              <div class="slider-thumb" style="left: 0%;"></div>
+              <div class="slider-thumb" style="left: 100%;"></div>
             </div>
-
-            <div class="form-group">
-              <label for="email" class="form-label">Email Address</label>
-              <input type="email" id="email" class="form-input" placeholder="jane@example.com">
+            <div class="salary-labels">
+              <span>$50k</span>
+              <span>$200k+</span>
             </div>
-
-            <div class="form-group">
-              <label class="form-label">Resume / CV</label>
-              <label for="resumeUpload" class="upload-box">
-                <span class="upload-icon">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-                    <path d="M14 2v6h6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-                    <path d="M12 18v-6m0 0l-2.3 2.3M12 12l2.3 2.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="upload-text">Drag and drop your resume here</span>
-                <span class="upload-hint">PDF, DOCX (Max 10MB)</span>
-                <input type="file" id="resumeUpload" accept=".pdf,.docx" hidden>
-              </label>
-            </div>
-
-            <button type="submit" class="submit-btn">Submit Application</button>
-
-            <p class="terms-text">
-              By applying, you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>.
-            </p>
-          </form>
-        </div>
-
-        <div class="expert-tip-box">
-          <span class="tip-icon">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.4 10.9c.4.3.6.7.6 1.1v.5h5.6v-.5c0-.4.2-.8.6-1.1A6 6 0 0 0 12 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-          <div class="tip-content">
-            <p class="tip-title">Expert Tip</p>
-            <p class="tip-text">Applying with a tailored portfolio significantly increases your chances for this role.</p>
           </div>
         </div>
 
+        <div class="filter-group">
+          <h3 class="filter-title">EXPERIENCE</h3>
+          <label class="radio-label">
+            <input type="radio" name="experience" value="entry">
+            <span class="custom-radio"></span>
+            Entry Level
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="experience" value="mid" checked>
+            <span class="custom-radio"></span>
+            Mid-Senior
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="experience" value="exec">
+            <span class="custom-radio"></span>
+            Executive
+          </label>
+        </div>
       </aside>
 
+      <!-- RIGHT COLUMN: Results -->
+      <section class="search-results">
+        <div class="results-header">
+          <h2><strong>482</strong> Opportunities found</h2>
+          <div class="sort-dropdown">
+            <span>Newest First</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+
+        <div class="job-list">
+          <!-- Job Card 1 -->
+          <article class="job-card">
+            <div class="job-card-main">
+              <div class="job-icon icon-blue">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <div class="job-info">
+                <div class="job-title-row">
+                  <h3>Senior Product Designer</h3>
+                  <span class="badge-new">NEW</span>
+                </div>
+                <p class="job-company">Lumina Creative Systems &bull; New York, NY (Hybrid)</p>
+                <p class="job-desc">We are looking for a visionary Product Designer to lead our editorial design language. You will collaborate with cross-functional teams to build...</p>
+                <div class="job-tags">
+                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> $140k – $180k</span>
+                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Posted 2h ago</span>
+                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Full-time</span>
+                </div>
+              </div>
+            </div>
+            <div class="job-card-actions">
+              <a href="job-details.html" class="btn-apply">Apply Now</a>
+              <button class="btn-bookmark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+            </div>
+          </article>
+
+          <!-- Job Card 2 -->
+          <article class="job-card">
+            <div class="job-card-main">
+              <div class="job-icon icon-green">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M2 22s5-2 9-2c4 0 9 2 9 2S18 4 12 4 2 22 2 22z"/></svg>
+              </div>
+              <div class="job-info">
+                <div class="job-title-row">
+                  <h3>Lead Software Architect</h3>
+                </div>
+                <p class="job-company">GreenWave Solutions &bull; Remote</p>
+                <p class="job-desc">Join a high-growth sustainability startup as a Lead Architect. You will be responsible for scaling our cloud infrastructure and mentoring a team of...</p>
+                <div class="job-tags">
+                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> $190k – $220k</span>
+                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Posted 5h ago</span>
+                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Contract</span>
+                </div>
+              </div>
+            </div>
+            <div class="job-card-actions">
+              <a href="job-details.html" class="btn-apply">Apply Now</a>
+              <button class="btn-bookmark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+            </div>
+          </article>
+
+          <!-- Job Card 3 -->
+          <article class="job-card">
+            <div class="job-card-main">
+              <div class="job-icon icon-orange">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
+              </div>
+              <div class="job-info">
+                <div class="job-title-row">
+                  <h3>Marketing Strategist</h3>
+                </div>
+                <p class="job-company">Vantage Media &bull; San Francisco, CA</p>
+                <p class="job-desc">Drive market growth for high-impact media brands. We need a strategist who understands the intersection of data-driven insights and premium...</p>
+                <div class="job-tags">
+                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> $110k – $150k</span>
+                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Posted 1d ago</span>
+                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Full-time</span>
+                </div>
+              </div>
+            </div>
+            <div class="job-card-actions">
+              <a href="job-details.html" class="btn-apply">Apply Now</a>
+              <button class="btn-bookmark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+            </div>
+          </article>
+        </div>
+
+        <div class="pagination">
+          <button class="page-btn"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <span class="page-dots">...</span>
+          <button class="page-btn">12</button>
+          <button class="page-btn"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+      </section>
     </div>
   </main>
 
