@@ -44,6 +44,7 @@ CREATE TABLE applications (
     job_id INT NOT NULL,
     seeker_id INT NOT NULL,
     cover_letter TEXT NOT NULL,
+    resume_path VARCHAR(255) NULL,
     status ENUM('Pending', 'Accepted', 'Rejected') DEFAULT 'Pending',
     applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
