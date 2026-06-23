@@ -1,4 +1,4 @@
-﻿/* ===================================
+/* ===================================
    RESET & VARIABLES
    =================================== */
 
@@ -2171,4 +2171,15 @@ img {
 
 .register-link a:hover {
   text-decoration: underline;
+}
+
+/* Dynamic Content Styles */
+.job-company-details {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.section-text {
+  white-space: pre-wrap;
 }
