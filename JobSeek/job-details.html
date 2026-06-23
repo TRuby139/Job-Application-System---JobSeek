@@ -97,7 +97,7 @@
         <div class="quick-apply-card">
           <h2 class="card-title">Quick Apply</h2>
 
-          <form class="apply-form" onsubmit="return false;">
+          <form class="apply-form">
             <input type="hidden" id="job-id" name="job_id">
             <div class="form-group">
               <label for="fullName" class="form-label">Full Name</label>
@@ -212,7 +212,49 @@
             document.getElementById('jobTitle').textContent = 'Error Loading Job';
           });
       } else {
-        document.getElementById('jobTitle').textContent = 'No Job Selected';
+        window.location.href = 'index.html';
+      }
+
+      const applyForm = document.querySelector('.apply-form');
+      if (applyForm) {
+        applyForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          
+          const jobIdInput = document.getElementById('job-id');
+          const resumeUpload = document.getElementById('resumeUpload');
+          
+          if (!jobIdInput.value) {
+            alert('Invalid Job ID.');
+            return;
+          }
+          
+          if (!resumeUpload.files || resumeUpload.files.length === 0) {
+            alert('Please upload a resume.');
+            return;
+          }
+
+          const formData = new FormData();
+          formData.append('job_id', jobIdInput.value);
+          formData.append('resume', resumeUpload.files[0]);
+
+          fetch('api/apply_job.php', {
+            method: 'POST',
+            body: formData
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              alert(data.message || 'Application submitted successfully.');
+              applyForm.reset();
+            } else {
+              alert(data.message || 'Failed to submit application.');
+            }
+          })
+          .catch(err => {
+            console.error('Error submitting application:', err);
+            alert('An error occurred while submitting your application.');
+          });
+        });
       }
     });
   </script>

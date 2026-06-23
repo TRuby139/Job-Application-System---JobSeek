@@ -35,7 +35,7 @@ if (isset($_FILES['resume']) && $_FILES['resume']['error'] === UPLOAD_ERR_OK) {
         sendJsonResponse(false, 'File size exceeds 5MB limit.');
     }
 
-    $file_name = uniqid() . '_' . $file_name_original;
+    $file_name = uniqid('resume_') . '.' . $file_extension;
     $target_file = $upload_dir . $file_name;
     
     // Create directory if it doesn't exist
@@ -48,6 +48,8 @@ if (isset($_FILES['resume']) && $_FILES['resume']['error'] === UPLOAD_ERR_OK) {
     } else {
         sendJsonResponse(false, 'Failed to upload resume.');
     }
+} else {
+    sendJsonResponse(false, 'Please upload a valid resume.');
 }
 
 // Check if already applied
