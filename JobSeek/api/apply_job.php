@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'seeker') {
 $job_id = $_POST['job_id'] ?? null;
 $cover_letter = isset($_POST['cover_letter']) ? trim($_POST['cover_letter']) : '';
 
-if (!$job_id || empty($cover_letter)) {
+if (!$job_id) {
     sendJsonResponse(false, 'Missing required fields.');
 }
 
@@ -22,7 +22,20 @@ $seeker_id = $_SESSION['user_id'];
 $resume_path = null;
 if (isset($_FILES['resume']) && $_FILES['resume']['error'] === UPLOAD_ERR_OK) {
     $upload_dir = '../uploads/';
-    $file_name = uniqid() . '_' . basename($_FILES['resume']['name']);
+    $file_name_original = basename($_FILES['resume']['name']);
+    $file_extension = strtolower(pathinfo($file_name_original, PATHINFO_EXTENSION));
+    
+    // File validation
+    $allowed_extensions = ['pdf', 'doc', 'docx'];
+    if (!in_array($file_extension, $allowed_extensions)) {
+        sendJsonResponse(false, 'Invalid file type. Only PDF, DOC, and DOCX are allowed.');
+    }
+    
+    if ($_FILES['resume']['size'] > 5 * 1024 * 1024) {
+        sendJsonResponse(false, 'File size exceeds 5MB limit.');
+    }
+
+    $file_name = uniqid() . '_' . $file_name_original;
     $target_file = $upload_dir . $file_name;
     
     // Create directory if it doesn't exist
