@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Senior Product Experience Designer - JobSeek</title>
+  <title id="pageTitle">Job Details - JobSeek</title>
   <link rel="icon" type="image/png" href="./picture/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,7 +48,8 @@
           <span class="posted-time">Posted 2 hours ago</span>
         </div>
 
-        <h1 class="job-title">Senior Product Experience Designer</h1>
+        <h1 class="job-title" id="jobTitle">Loading...</h1>
+        <p class="job-company" id="companyName" style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1.5rem;"></p>
 
         <div class="job-meta">
           <span class="meta-item">
@@ -56,7 +57,7 @@
               <path d="M12 22s7-7.58 7-12.5A7 7 0 0 0 5 9.5C5 14.42 12 22 12 22z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
               <circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.8"/>
             </svg>
-            San Francisco, CA / Remote
+            <span id="jobLocation">Loading...</span>
           </span>
 
           <span class="meta-item">
@@ -65,7 +66,7 @@
               <path d="M2.5 10h19" stroke="currentColor" stroke-width="1.8"/>
               <circle cx="16.5" cy="14" r="1.6" fill="currentColor"/>
             </svg>
-            $140k – $190k
+            <span id="jobSalary">Loading...</span>
           </span>
 
           <span class="meta-item">
@@ -74,42 +75,19 @@
               <path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" stroke="currentColor" stroke-width="1.8"/>
               <path d="M2.5 13h19" stroke="currentColor" stroke-width="1.8"/>
             </svg>
-            Full-time
+            <span id="jobType">Full-time</span>
           </span>
         </div>
 
         <h2 class="section-title">The Role</h2>
-        <p class="section-text">
-          We are seeking an Editorial-minded Product Designer to lead the vision for our next-generation career platform. You will be responsible for defining the visual language that makes job seeking feel like a premium experience. You'll bridge the gap between high-end digital publishing and functional SaaS tooling.
-        </p>
+        <div class="section-text" id="jobDescription">
+          Loading...
+        </div>
 
-        <h2 class="section-title">What you'll do</h2>
-        <ul class="checklist">
-          <li class="check-item">
-            <span class="check-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span>Architect complex design systems rooted in editorial typography and tonal layering.</span>
-          </li>
-          <li class="check-item">
-            <span class="check-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span>Collaborate with cross-functional teams to translate user pain points into elegant UI solutions.</span>
-          </li>
-          <li class="check-item">
-            <span class="check-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span>Maintain the highest standards of craft, focusing on micro-interactions and motion design.</span>
-          </li>
-        </ul>
+        <h2 class="section-title">About the Company</h2>
+        <div class="section-text" id="companyDetails">
+          Loading...
+        </div>
 
       </section>
 
@@ -120,6 +98,7 @@
           <h2 class="card-title">Quick Apply</h2>
 
           <form class="apply-form" onsubmit="return false;">
+            <input type="hidden" id="job-id" name="job_id">
             <div class="form-group">
               <label for="fullName" class="form-label">Full Name</label>
               <input type="text" id="fullName" class="form-input" placeholder="Jane Doe">
@@ -196,6 +175,46 @@
         mobileNav.classList.toggle('open');
       });
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const jobId = urlParams.get('id');
+
+      if (jobId) {
+        const jobIdInput = document.getElementById('job-id');
+        if (jobIdInput) jobIdInput.value = jobId;
+        
+        fetch(`api/get_job.php?id=${jobId}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.success && data.data) {
+              const job = data.data;
+              document.getElementById('pageTitle').textContent = `${job.title} - JobSeek`;
+              document.getElementById('jobTitle').textContent = job.title;
+              document.getElementById('companyName').textContent = job.company_name;
+              document.getElementById('jobLocation').textContent = job.location;
+              document.getElementById('jobSalary').textContent = job.salary || 'Competitive';
+              document.getElementById('jobDescription').textContent = job.description;
+              
+              if (job.company_details) {
+                document.getElementById('companyDetails').textContent = job.company_details;
+              } else {
+                document.getElementById('companyDetails').style.display = 'none';
+                document.getElementById('companyDetails').previousElementSibling.style.display = 'none';
+              }
+            } else {
+              document.getElementById('jobTitle').textContent = 'Job Not Found';
+              document.getElementById('jobDescription').textContent = data.message || 'The requested job does not exist.';
+            }
+          })
+          .catch(err => {
+            console.error('Error fetching job details:', err);
+            document.getElementById('jobTitle').textContent = 'Error Loading Job';
+          });
+      } else {
+        document.getElementById('jobTitle').textContent = 'No Job Selected';
+      }
+    });
   </script>
 </body>
 </html>
