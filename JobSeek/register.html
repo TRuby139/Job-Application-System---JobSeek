@@ -131,24 +131,24 @@
 
           <form class="login-form" onsubmit="return false;" style="margin-top: 30px;">
             <div class="form-group">
-              <label class="form-label">Full Name</label>
+              <label class="form-label" for="regFullName">Full Name</label>
               <div class="register-input-wrapper">
-                <input type="text" class="form-input" placeholder="Alex Morgan">
+                <input type="text" id="regFullName" class="form-input" placeholder="Alex Morgan" autocomplete="name">
               </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Email Address</label>
+              <label class="form-label" for="regEmail">Email Address</label>
               <div class="register-input-wrapper">
-                <input type="email" class="form-input" placeholder="alex@company.com">
+                <input type="email" id="regEmail" class="form-input" placeholder="alex@company.com" autocomplete="email">
               </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Password</label>
+              <label class="form-label" for="regPassword">Password</label>
               <div class="register-input-wrapper">
-                <input type="password" class="form-input" placeholder="••••••••">
-                <svg class="eye-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <input type="password" id="regPassword" class="form-input" placeholder="••••••••" autocomplete="new-password">
+                <svg aria-hidden="true" class="eye-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                   <circle cx="12" cy="12" r="3"></circle>
                 </svg>

@@ -2172,3 +2172,73 @@ img {
 .register-link a:hover {
   text-decoration: underline;
 }
+
+/* ===================================
+   ACCESSIBILITY & GUIDELINES FIXES
+   =================================== */
+
+/* Focus States */
+button:focus-visible, 
+a:focus-visible, 
+.btn-login:focus-visible, 
+.nav-link:focus-visible,
+input[type="checkbox"]:focus-visible + .custom-checkbox,
+input[type="radio"]:focus-visible + .custom-radio {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* Tabular Nums for Metrics */
+.metric-num, 
+.stat-value, 
+.tracker-meta, 
+.badge-new, 
+.pill {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Text Wrapping for Hierarchy */
+.hero-title, 
+.login-title, 
+.job-title, 
+.hero h1, 
+.col-heading {
+  text-wrap: balance;
+}
+
+/* Management Search Input fix */
+.search-input {
+  background: #f5f6f8;
+  border: 2px solid #cbd1d9;
+  border-radius: 8px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 220px;
+}
+.search-input:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(29, 79, 216, 0.12);
+}
+.management-search {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13px;
+  color: var(--black);
+}
+.management-search::placeholder {
+  color: #999;
+}
+
+/* Subtle Hover interaction for Job Cards */
+.job-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.job-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
