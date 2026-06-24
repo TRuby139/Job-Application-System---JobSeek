@@ -9,6 +9,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .mobile-profile, .mobile-login-link {
+      display: none;
+    }
+    @media (max-width: 740px) {
+      .desktop-profile, .btn-login {
+        display: none !important;
+      }
+      .mobile-profile, .mobile-login-link {
+        display: block;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -22,6 +35,7 @@
           <li><a href="index.html" class="nav-link">Job Search</a></li>
           <li><a href="tracking.html" class="nav-link active">Process Tracking</a></li>
           <li><a href="management.html" class="nav-link">Job Management</a></li>
+          <li class="mobile-login-link"><a href="login.html" class="nav-link" style="color:var(--blue); font-weight:600;">Login</a></li>
         </ul>
       </nav>
 
@@ -193,19 +207,42 @@
                 return;
             }
             
-            // Handle Header
-            const headerActions = document.getElementById('headerActions') || document.querySelector('.header-actions');
+            // Handle Header & Mobile Nav
+            const headerActions = document.querySelector('.header-actions');
+            const mobileNavUl = document.querySelector('#mobileNav ul');
             if (headerActions) {
                 const loginBtn = headerActions.querySelector('.btn-login');
                 if (loginBtn) {
+                    // Desktop Profile
                     const userProfile = document.createElement('div');
+                    userProfile.className = 'desktop-profile';
                     userProfile.style.display = 'flex';
                     userProfile.style.alignItems = 'center'; userProfile.style.gap = '15px';
-                    userProfile.innerHTML = `<span style="font-weight: 500; font-size: 14px; color: #0f172a;" class="hide-mobile">Welcome, ${data.data.name}</span><a href="#" id="logoutBtn" class="btn-apply">Logout</a>`;
+                    userProfile.innerHTML = `<span style="font-weight: 500; font-size: 14px; color: #0f172a;">Welcome, ${data.data.name}</span><a href="#" class="btn-apply logout-btn">Logout</a>`;
                     headerActions.insertBefore(userProfile, loginBtn);
                     loginBtn.remove();
-                    document.getElementById('logoutBtn').addEventListener('click', async (e) => {
-                        e.preventDefault(); await fetch('api/logout.php'); window.location.reload();
+
+                    // Mobile Profile logic
+                    if (mobileNavUl) {
+                        const mobileLogin = document.querySelector('.mobile-login-link');
+                        if (mobileLogin) mobileLogin.remove();
+
+                        const welcomeLi = document.createElement('li');
+                        welcomeLi.className = 'mobile-profile';
+                        welcomeLi.innerHTML = `<span style="display:block; font-weight:600; color:#0f172a; padding-bottom:16px; margin-bottom:8px; border-bottom:1px solid #e2e8f0;">Welcome, ${data.data.name}</span>`;
+                        mobileNavUl.insertBefore(welcomeLi, mobileNavUl.firstChild);
+
+                        const logoutLi = document.createElement('li');
+                        logoutLi.className = 'mobile-profile';
+                        logoutLi.innerHTML = `<a href="#" class="nav-link logout-btn" style="color:#ef4444; font-weight:600;">Logout</a>`;
+                        mobileNavUl.appendChild(logoutLi);
+                    }
+
+                    // Attach logout event listeners
+                    document.querySelectorAll('.logout-btn').forEach(btn => {
+                        btn.addEventListener('click', async (e) => {
+                            e.preventDefault(); await fetch('api/logout.php'); window.location.reload();
+                        });
                     });
                 }
             }
