@@ -60,7 +60,7 @@
           <h1>Job Management</h1>
           <p>Curate your professional future by managing your active vacancies and analyzing candidate pipelines.</p>
         </div>
-        <button class="btn-primary">
+        <button class="btn-primary" id="openPostJobModalBtn">
           <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
           </svg>
@@ -242,6 +242,43 @@
       </div>
   </div>
 
+  <!-- Post Job Modal -->
+  <div id="postJobModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:9999;">
+      <div class="modal-content" style="background:#fff; padding:30px; border-radius:12px; max-width:500px; width:90%; box-shadow:0 10px 25px rgba(0,0,0,0.1); max-height:90vh; overflow-y:auto;">
+          <h2 style="margin-top:0; font-size:24px; color:#0f172a;">Post a New Job</h2>
+          <form id="postJobForm" style="display:flex; flex-direction:column; gap:15px; margin-top:20px;">
+              <input type="text" id="jobTitle" placeholder="Job Title" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              <select id="jobCompany" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; background:#fff;">
+                  <option value="" disabled selected>Select Company</option>
+              </select>
+              <input type="text" id="jobLocation" placeholder="Location" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              <input type="text" id="jobSalary" placeholder="Salary (e.g. $100k - $130k)" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              
+              <div style="display:flex; gap:15px;">
+                  <select id="jobType" required style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; background:#fff;">
+                      <option value="" disabled selected>Job Type</option>
+                      <option value="full-time">Full-time</option>
+                      <option value="contract">Contract</option>
+                      <option value="remote">Remote</option>
+                  </select>
+                  <select id="jobExperience" required style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; background:#fff;">
+                      <option value="" disabled selected>Experience</option>
+                      <option value="entry">Entry Level</option>
+                      <option value="mid">Mid Level</option>
+                      <option value="exec">Executive</option>
+                  </select>
+              </div>
+
+              <textarea id="jobDescription" placeholder="Job Description" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; min-height:100px;"></textarea>
+              
+              <div style="display:flex; gap:10px; margin-top:10px;">
+                  <button type="button" id="closePostJobModalBtn" class="btn-secondary" style="flex:1; border-radius:8px; padding:12px 22px; font-size:14px; font-weight:600; cursor:pointer; background:#f1f5f9; border:1px solid #cbd5e1; color:#0f172a; display:flex; justify-content:center; align-items:center; transition:background 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">Cancel</button>
+                  <button type="submit" class="btn-primary" style="flex:1; justify-content:center;">Post Job</button>
+              </div>
+          </form>
+      </div>
+  </div>
+
   <!-- ========== FOOTER ========== -->
   <footer class="site-footer">
     <div class="footer-inner">
@@ -363,6 +400,57 @@
                 window.location.reload();
             } else {
                 alert(result.message || 'Failed to register company.');
+            }
+        });
+        // Post Job Logic
+        const postJobModal = document.getElementById('postJobModal');
+        const openPostJobModalBtn = document.getElementById('openPostJobModalBtn');
+        const jobCompanySelect = document.getElementById('jobCompany');
+
+        if (openPostJobModalBtn) {
+            openPostJobModalBtn.addEventListener('click', async () => {
+                postJobModal.style.display = 'flex';
+                // Fetch companies to populate dropdown
+                const res = await fetch('api/companies.php');
+                const result = await res.json();
+                if (result.success && result.data.length > 0) {
+                    jobCompanySelect.innerHTML = '<option value="" disabled selected>Select Company</option>';
+                    result.data.forEach(company => {
+                        const option = document.createElement('option');
+                        option.value = company.id;
+                        option.textContent = company.name;
+                        jobCompanySelect.appendChild(option);
+                    });
+                }
+            });
+        }
+
+        document.getElementById('closePostJobModalBtn').addEventListener('click', () => {
+            postJobModal.style.display = 'none';
+        });
+
+        document.getElementById('postJobForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                title: document.getElementById('jobTitle').value,
+                company_id: document.getElementById('jobCompany').value,
+                location: document.getElementById('jobLocation').value,
+                salary: document.getElementById('jobSalary').value,
+                type: document.getElementById('jobType').value,
+                experience: document.getElementById('jobExperience').value,
+                description: document.getElementById('jobDescription').value
+            };
+
+            const res = await fetch('api/post_job.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const result = await res.json();
+            if (result.success) {
+                window.location.reload();
+            } else {
+                alert(result.message || 'Failed to post job.');
             }
         });
     });
