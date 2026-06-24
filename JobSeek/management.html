@@ -68,39 +68,6 @@
         </button>
       </div>
 
-      <!-- STATS -->
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-label">Total Views</div>
-          <div class="stat-value">
-            12.4k
-            <span class="stat-badge badge-green">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline-block;vertical-align:middle"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-              +14%
-            </span>
-          </div>
-          <div class="stat-bar-bg"><div class="stat-bar-fill fill-blue"></div></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Total Applicants</div>
-          <div class="stat-value">
-            842
-            <span class="stat-badge badge-teal">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline-block;vertical-align:middle"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-              48 New
-            </span>
-          </div>
-          <div class="stat-bar-bg"><div class="stat-bar-fill fill-teal"></div></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Interview Rate</div>
-          <div class="stat-value">
-            8.2%
-            <span class="stat-badge badge-orange" style="font-size:12px;">Industry Avg: 5%</span>
-          </div>
-          <div class="stat-bar-bg"><div class="stat-bar-fill fill-red"></div></div>
-        </div>
-      </div>
 
       <!-- ACTIVE POSTINGS -->
       <div class="section-card">
@@ -110,7 +77,7 @@
             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
-            Filter jobs...
+            <input type="text" id="jobFilterInput" placeholder="Filter jobs..." style="border:none; outline:none; background:transparent; width:100%; margin-left:8px;" />
           </div>
         </div>
 
@@ -118,108 +85,16 @@
           <!-- Table header -->
           <div class="table-head">
           <span>Job Title &amp; Details</span>
-          <span>Metrics</span>
-          <span>Applicants</span>
           <span>Status</span>
           <span style="text-align:right">Actions</span>
         </div>
 
-        <!-- Row 1 -->
-        <div class="job-row">
-          <div>
-            <div class="job-title">Senior Product Designer</div>
-            <div class="job-meta">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              Remote &bull; Full-time
-            </div>
-          </div>
-          <div class="metrics-cell">
-            <div class="metric-pair">
-              <div>
-                <div class="metric-num">1,240</div>
-                <div class="metric-lbl">Views</div>
-              </div>
-              <div>
-                <div class="metric-num">4.2%</div>
-                <div class="metric-lbl">Conv.</div>
-              </div>
-            </div>
-          </div>
-          <div class="avatar-stack">
-            <div class="avatar av1">A</div>
-            <div class="avatar av2">B</div>
-            <div class="avatar av3">C</div>
-            <div class="avatar avatar-more">+49</div>
-          </div>
-          <div><span class="status-badge s-active">Active</span></div>
-          <div><a class="action-link">Manage</a></div>
-        </div>
-
-        <!-- Row 2 -->
-        <div class="job-row">
-          <div>
-            <div class="job-title">Staff Frontend Engineer</div>
-            <div class="job-meta">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              New York &bull; Hybrid
-            </div>
-          </div>
-          <div class="metrics-cell">
-            <div class="metric-pair">
-              <div>
-                <div class="metric-num">890</div>
-                <div class="metric-lbl">Views</div>
-              </div>
-              <div>
-                <div class="metric-num">3.1%</div>
-                <div class="metric-lbl">Conv.</div>
-              </div>
-            </div>
-          </div>
-          <div class="avatar-stack">
-            <div class="avatar av4">D</div>
-            <div class="avatar av5">E</div>
-            <div class="avatar avatar-more">+12</div>
-          </div>
-          <div><span class="status-badge s-draft">Draft</span></div>
-          <div><a class="action-link">Publish</a></div>
-        </div>
-
-        <!-- Row 3 -->
-        <div class="job-row">
-          <div>
-            <div class="job-title">Content Strategy Lead</div>
-            <div class="job-meta">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              London &bull; Contract
-            </div>
-          </div>
-          <div class="metrics-cell">
-            <div class="metric-pair">
-              <div>
-                <div class="metric-num">2,410</div>
-                <div class="metric-lbl">Views</div>
-              </div>
-              <div>
-                <div class="metric-num">12.8%</div>
-                <div class="metric-lbl">Conv.</div>
-              </div>
-            </div>
-          </div>
-          <div class="avatar-stack">
-            <div class="avatar av2">F</div>
-            <div class="avatar avatar-more">+300</div>
-          </div>
-          <div><span class="status-badge s-closing-soon">Closing Soon</span></div>
-          <div><a class="action-link">Manage</a></div>
-        </div>
+        <div id="activeJobsContainer"></div>
 
         </div>
 
-        <!-- View Archive -->
-        <div class="view-archive">
-          <a href="#">View Archive &rarr;</a>
-        </div>
+        <!-- Pagination -->
+        <div id="paginationContainer" style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 20px;"></div>
       </div>
 
     </div>
@@ -295,6 +170,77 @@
   </footer>
 
   <script>
+    let allEmployerJobs = [];
+    let currentFilteredJobs = [];
+    let jobsPerPage = 3;
+    let currentPage = 1;
+
+    function renderJobs() {
+        const container = document.getElementById('activeJobsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        const startIndex = (currentPage - 1) * jobsPerPage;
+        const endIndex = startIndex + jobsPerPage;
+        const displayJobs = currentFilteredJobs.slice(startIndex, endIndex);
+        
+        displayJobs.forEach(job => {
+            const row = document.createElement('div');
+            row.className = 'job-row';
+            
+            // Define status class mapping
+            let statusClass = 's-active';
+            if (job.status.toLowerCase() === 'closed') statusClass = 's-draft'; // Using s-draft grey as closed
+            
+            row.innerHTML = `
+              <div>
+                <div class="job-title">${job.title}</div>
+                <div class="job-meta">
+                  <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  ${job.location} &bull; ${job.type}
+                </div>
+              </div>
+              <div><span class="status-badge ${statusClass}">${job.status}</span></div>
+              <div style="text-align:right"><a class="action-link" href="#">Manage</a></div>
+            `;
+            container.appendChild(row);
+        });
+
+        renderPagination();
+    }
+
+    function renderPagination() {
+        const paginationContainer = document.getElementById('paginationContainer');
+        if (!paginationContainer) return;
+        paginationContainer.innerHTML = '';
+
+        const totalPages = Math.ceil(currentFilteredJobs.length / jobsPerPage);
+        if (totalPages <= 1) return;
+
+        // Prev Button
+        const prevBtn = document.createElement('button');
+        prevBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+        prevBtn.className = 'page-btn' + (currentPage === 1 ? ' disabled' : '');
+        prevBtn.onclick = (e) => { e.preventDefault(); if (currentPage > 1) { currentPage--; renderJobs(); } };
+        paginationContainer.appendChild(prevBtn);
+
+        // Page Numbers
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.innerText = i;
+            pageBtn.className = 'page-btn' + (currentPage === i ? ' active' : '');
+            pageBtn.onclick = (e) => { e.preventDefault(); currentPage = i; renderJobs(); };
+            paginationContainer.appendChild(pageBtn);
+        }
+
+        // Next Button
+        const nextBtn = document.createElement('button');
+        nextBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+        nextBtn.className = 'page-btn' + (currentPage === totalPages ? ' disabled' : '');
+        nextBtn.onclick = (e) => { e.preventDefault(); if (currentPage < totalPages) { currentPage++; renderJobs(); } };
+        paginationContainer.appendChild(nextBtn);
+    }
+
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const mobileNav = document.getElementById('mobileNav');
 
@@ -306,7 +252,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        fetch('api/check_auth.php').then(r=>r.json()).then(data => {
+        fetch('api/check_auth.php').then(r=>r.json()).then(async data => {
             const managementInner = document.querySelector('.management-inner');
             if (!data.success) {
                 managementInner.innerHTML = `
@@ -372,8 +318,33 @@
                 document.getElementById('openRegisterModal').addEventListener('click', () => {
                     document.getElementById('companyModal').style.display = 'flex';
                 });
+            } else {
+                try {
+                    const resJobs = await fetch('api/employer_jobs.php');
+                    const jobsResult = await resJobs.json();
+                    if (jobsResult.success) {
+                        allEmployerJobs = jobsResult.data;
+                        currentFilteredJobs = allEmployerJobs;
+                        renderJobs();
+                    }
+                } catch (err) {
+                    console.error("Error fetching jobs:", err);
+                }
             }
         });
+
+        const filterInput = document.getElementById('jobFilterInput');
+        if (filterInput) {
+            filterInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                currentFilteredJobs = allEmployerJobs.filter(job => 
+                    job.title.toLowerCase().includes(query) || 
+                    job.location.toLowerCase().includes(query)
+                );
+                currentPage = 1; // Reset to page 1 on search
+                renderJobs();
+            });
+        }
 
         // Modal Logic
         const modal = document.getElementById('companyModal');

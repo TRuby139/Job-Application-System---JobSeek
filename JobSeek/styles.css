@@ -842,7 +842,7 @@ img {
 }
 
 .management-inner {
-  max-width: 980px;
+  max-width: 80%;
   margin: 0 auto;
   padding: 36px 24px 60px;
 }
@@ -889,84 +889,6 @@ img {
   background: var(--blue-dark);
 }
 
-/* -- Stat Grid (management page) -- */
-
-.stat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 32px;
-}
-
-.stat-grid .stat-card {
-  background: var(--white);
-  border-radius: 12px;
-  padding: 24px 28px 20px;
-  border: 2px solid #d1d5db;
-}
-
-.stat-grid .stat-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #888;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.stat-grid .stat-value {
-  font-size: 36px;
-  font-weight: 700;
-  color: #111;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.stat-badge {
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.badge-green {
-  color: #16a34a;
-}
-
-.badge-teal {
-  color: #0d9488;
-}
-
-.badge-orange {
-  color: #d97706;
-}
-
-.stat-bar-bg {
-  height: 4px;
-  border-radius: 2px;
-  background: #d1d5db;
-  overflow: hidden;
-}
-
-.stat-bar-fill {
-  height: 100%;
-  border-radius: 2px;
-}
-
-.fill-blue {
-  background: var(--blue);
-  width: 58%;
-}
-
-.fill-teal {
-  background: #14b8a6;
-  width: 72%;
-}
-
-.fill-red {
-  background: #ef4444;
-  width: 45%;
-}
 
 /* -- Section Card / Active Postings -- */
 
@@ -1017,7 +939,8 @@ img {
 
 .table-head {
   display: grid;
-  grid-template-columns: 2.4fr 1.2fr 1.1fr 1fr 0.7fr;
+  grid-template-columns: 4fr 1.5fr 1fr;
+  gap: 24px;
   min-width: 800px;
   padding: 0 0 8px;
   border-bottom: 2px solid #d1d5db;
@@ -1038,7 +961,8 @@ img {
 
 .job-row {
   display: grid;
-  grid-template-columns: 2.4fr 1.2fr 1.1fr 1fr 0.7fr;
+  grid-template-columns: 4fr 1.5fr 1fr;
+  gap: 24px;
   min-width: 800px;
   align-items: center;
   padding: 18px 0;
@@ -1066,71 +990,6 @@ img {
   color: #aaa;
 }
 
-/* -- Metrics -- */
-
-.metrics-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.metric-num {
-  font-size: 14px;
-  font-weight: 600;
-  color: #111;
-}
-
-.metric-lbl {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #aaa;
-}
-
-.metric-pair {
-  display: flex;
-  gap: 22px;
-}
-
-/* -- Avatar Stack -- */
-
-.avatar-stack {
-  display: flex;
-  align-items: center;
-}
-
-.avatar-stack .avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid var(--white);
-  margin-left: -6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--white);
-  background: #9ca3af;
-}
-
-.avatar-stack .avatar:first-child {
-  margin-left: 0;
-}
-
-.avatar-more {
-  background: #d1d5db !important;
-  color: #555 !important;
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.av1 { background: #f97316; }
-.av2 { background: #8b5cf6; }
-.av3 { background: #06b6d4; }
-.av4 { background: #ec4899; }
-.av5 { background: #14b8a6; }
 
 /* -- Status Badges -- */
 
@@ -1243,9 +1102,6 @@ img {
   }
 
   /* -- Management Page -- */
-  .stat-grid {
-    grid-template-columns: 1fr;
-  }
 
 /* -- Footer -- */
   .footer-inner {
@@ -2182,4 +2038,33 @@ img {
 
 .section-text {
   white-space: pre-wrap;
+}
+
+/* -- Pagination -- */
+.page-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.page-btn:hover:not(.disabled) {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+.page-btn.active {
+  background: var(--blue);
+  color: #fff;
+}
+.page-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
