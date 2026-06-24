@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Job - JobSeek</title>
+  <link rel="icon" type="image/png" href="./picture/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .manage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .manage-header h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--black);
+    }
+    .manage-controls {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      background: var(--white);
+      padding: 15px 20px;
+      border-radius: var(--radius-mid);
+      border: 1px solid var(--gray-lighter);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .control-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-dark);
+    }
+    .control-group input[type="date"] {
+      padding: 8px 12px;
+      border: 1px solid var(--gray-lighter);
+      border-radius: var(--radius-small);
+      font-family: inherit;
+      color: var(--black);
+    }
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .kanban-board {
+        grid-template-columns: 1fr;
+      }
+    }
+    .kanban-col {
+      border-radius: var(--radius-mid);
+      padding: 15px;
+      min-height: 400px;
+    }
+    /* Distinctive colors for each column */
+    .kanban-col[data-status="Pending"] {
+      background: #f1f5f9;
+      border-top: 4px solid #94a3b8;
+    }
+    .kanban-col[data-status="Interviewing"] {
+      background: #eff6ff;
+      border-top: 4px solid #3b82f6;
+    }
+    .kanban-col[data-status="Offered"] {
+      background: #f0fdf4;
+      border-top: 4px solid #22c55e;
+    }
+    .kanban-col[data-status="Declined"] {
+      background: #fef2f2;
+      border-top: 4px solid #ef4444;
+    }
+    .kanban-header {
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--black);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+    }
+    .kanban-count {
+      background: rgba(0,0,0,0.05);
+      color: var(--black);
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .kanban-card {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.05);
+      padding: 15px;
+      border-radius: var(--radius-small);
+      margin-bottom: 12px;
+      cursor: grab;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+    }
+    .kanban-card:hover {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+      border-color: #bae6fd;
+    }
+    .kanban-card:active {
+      cursor: grabbing;
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .kanban-card.dragging {
+      opacity: 0.5;
+    }
+    .applicant-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .applicant-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #e0f2fe;
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .applicant-details {
+      overflow: hidden;
+    }
+    .applicant-name {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 2px;
+      color: var(--black);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .applicant-email {
+      font-size: 13px;
+      color: var(--gray);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 15px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--gray-lighter);
+    }
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 6px;
+      background: #f8fafc;
+      color: var(--blue);
+      border: 1px solid #e2e8f0;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-small:hover {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo"><img src="./picture/logo.png"></a>
+
+      <nav class="site-nav" id="mobileNav">
+        <ul>
+          <li><a href="index.html" class="nav-link">Job Search</a></li>
+          <li><a href="tracking.html" class="nav-link">Process Tracking</a></li>
+          <li><a href="management.html" class="nav-link active">Job Management</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button class="hamburger-btn" aria-label="Toggle menu" id="hamburgerBtn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="management-page">
+    <div class="management-inner">
+      
+      <div class="manage-header">
+        <div>
+          <a href="management.html" style="color:var(--gray); font-size:14px; margin-bottom:8px; display:inline-block;">&larr; Back to Jobs</a>
+          <h1 id="jobTitleDisplay">Loading...</h1>
+        </div>
+        
+        <div class="manage-controls">
+          <div class="control-group">
+            <label for="closingDate">Closing Date</label>
+            <input type="date" id="closingDate">
+          </div>
+          <button id="saveSettingsBtn" class="btn-primary" style="padding: 10px 20px; border-radius: 6px; font-size: 14px;">Save</button>
+          <button id="toggleStatusBtn" class="btn-secondary" style="padding: 10px 20px; border-radius: 6px; font-size: 14px; background: #fee2e2; color: #b91c1c; border-color: #f87171;">Close Job</button>
+        </div>
+      </div>
+
+      <div class="kanban-board">
+        <!-- Column 1: Applied -->
+        <div class="kanban-col" data-status="Pending">
+          <div class="kanban-header">
+            Applied <span class="kanban-count" id="count-Pending">0</span>
+          </div>
+          <div class="kanban-dropzone" id="zone-Pending" style="min-height: 100%;"></div>
+        </div>
+
+        <!-- Column 2: Interviewing -->
+        <div class="kanban-col" data-status="Interviewing">
+          <div class="kanban-header">
+            Interviewing <span class="kanban-count" id="count-Interviewing">0</span>
+          </div>
+          <div class="kanban-dropzone" id="zone-Interviewing" style="min-height: 100%;"></div>
+        </div>
+
+        <!-- Column 3: Offered -->
+        <div class="kanban-col" data-status="Offered">
+          <div class="kanban-header">
+            Offered <span class="kanban-count" id="count-Offered">0</span>
+          </div>
+          <div class="kanban-dropzone" id="zone-Offered" style="min-height: 100%;"></div>
+        </div>
+
+        <!-- Column 4: Declined -->
+        <div class="kanban-col" data-status="Declined">
+          <div class="kanban-header">
+            Declined <span class="kanban-count" id="count-Declined">0</span>
+          </div>
+          <div class="kanban-dropzone" id="zone-Declined" style="min-height: 100%;"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Header Auth
+    fetch('api/check_auth.php').then(r=>r.json()).then(data => {
+        const headerActions = document.querySelector('.header-actions');
+        if (data.success && headerActions) {
+            const userProfile = document.createElement('div');
+            userProfile.className = 'desktop-profile';
+            userProfile.style.display = 'flex';
+            userProfile.style.alignItems = 'center'; userProfile.style.gap = '15px';
+            userProfile.innerHTML = `<span style="font-weight: 500; font-size: 14px; color: #0f172a;">Welcome, ${data.data.name}</span><a href="#" class="btn-apply logout-btn" style="padding: 10px 20px;">Logout</a>`;
+            headerActions.insertBefore(userProfile, headerActions.firstChild);
+            
+            document.querySelector('.logout-btn').addEventListener('click', async (e) => {
+                e.preventDefault(); await fetch('api/logout.php'); window.location.href = 'index.html';
+            });
+        } else {
+            window.location.href = 'login.html';
+        }
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const jobId = urlParams.get('id');
+
+    if (!jobId) window.location.href = 'management.html';
+
+    let currentJobStatus = 'Open';
+
+    function loadJobData() {
+        fetch(`api/get_manage_job.php?id=${jobId}`)
+        .then(res => res.json())
+        .then(data => {
+            if (!data.success) {
+                alert(data.message);
+                window.location.href = 'management.html';
+                return;
+            }
+
+            const job = data.data.job;
+            const applicants = data.data.applicants;
+
+            // Header info
+            document.getElementById('jobTitleDisplay').textContent = job.title;
+            if (job.closing_date) {
+                document.getElementById('closingDate').value = job.closing_date;
+            }
+            
+            currentJobStatus = job.status;
+            const toggleBtn = document.getElementById('toggleStatusBtn');
+            if (currentJobStatus === 'Closed') {
+                toggleBtn.textContent = 'Reopen Job';
+                toggleBtn.style.background = '#e0f2fe';
+                toggleBtn.style.color = '#0369a1';
+                toggleBtn.style.borderColor = '#7dd3fc';
+            } else {
+                toggleBtn.textContent = 'Close Job';
+                toggleBtn.style.background = '#fee2e2';
+                toggleBtn.style.color = '#b91c1c';
+                toggleBtn.style.borderColor = '#f87171';
+            }
+
+            // Clear zones
+            document.querySelectorAll('.kanban-dropzone').forEach(z => z.innerHTML = '');
+            const counts = { Pending: 0, Interviewing: 0, Offered: 0, Declined: 0 };
+
+            applicants.forEach(app => {
+                const status = app.status;
+                const zoneId = `zone-${status}`;
+                const zone = document.getElementById(zoneId);
+                
+                if (zone) {
+                    counts[status]++;
+                    const card = document.createElement('div');
+                    card.className = 'kanban-card';
+                    card.draggable = true;
+                    card.dataset.id = app.application_id;
+                    
+                    const initials = app.applicant_name.substring(0, 2).toUpperCase();
+                    card.innerHTML = `
+                        <div class="applicant-info">
+                            <div class="applicant-avatar">${initials}</div>
+                            <div class="applicant-details">
+                                <div class="applicant-name">${app.applicant_name}</div>
+                                <div class="applicant-email">${app.applicant_email}</div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="${app.resume_path}" target="_blank" class="btn-small" style="text-decoration:none;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                Resume
+                            </a>
+                        </div>
+                    `;
+
+                    // Drag Events
+                    card.addEventListener('dragstart', (e) => {
+                        card.classList.add('dragging');
+                        e.dataTransfer.setData('text/plain', app.application_id);
+                    });
+                    
+                    card.addEventListener('dragend', () => {
+                        card.classList.remove('dragging');
+                    });
+
+                    zone.appendChild(card);
+                }
+            });
+
+            // Update counts
+            Object.keys(counts).forEach(k => {
+                document.getElementById(`count-${k}`).textContent = counts[k];
+            });
+        });
+    }
+
+    // Dropzone logic
+    document.querySelectorAll('.kanban-col').forEach(col => {
+        col.addEventListener('dragover', e => {
+            e.preventDefault();
+        });
+        col.addEventListener('drop', e => {
+            e.preventDefault();
+            const appId = e.dataTransfer.getData('text/plain');
+            const newStatus = col.dataset.status;
+            const draggable = document.querySelector(`[data-id="${appId}"]`);
+            
+            if (draggable && appId && newStatus) {
+                // Optimistic UI update
+                col.querySelector('.kanban-dropzone').appendChild(draggable);
+                
+                // Server update
+                fetch('api/update_applicant_status.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ application_id: appId, status: newStatus })
+                }).then(r => r.json()).then(res => {
+                    if (!res.success) {
+                        alert('Failed to update status.');
+                        loadJobData(); // reload on error
+                    } else {
+                        // Recalculate counts manually to avoid full reload
+                        ['Pending', 'Interviewing', 'Offered', 'Declined'].forEach(k => {
+                            const c = document.getElementById(`zone-${k}`).children.length;
+                            document.getElementById(`count-${k}`).textContent = c;
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    // Save Settings
+    document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+        const date = document.getElementById('closingDate').value;
+        fetch('api/update_job_settings.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ job_id: jobId, closing_date: date })
+        }).then(r=>r.json()).then(res => {
+            if (res.success) alert('Settings saved.');
+            else alert(res.message);
+        });
+    });
+
+    // Toggle Status
+    document.getElementById('toggleStatusBtn').addEventListener('click', () => {
+        const newStatus = currentJobStatus === 'Closed' ? 'Open' : 'Closed';
+        fetch('api/update_job_settings.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ job_id: jobId, status: newStatus })
+        }).then(r=>r.json()).then(res => {
+            if (res.success) loadJobData();
+            else alert(res.message);
+        });
+    });
+
+    loadJobData();
+
+  </script>
+</body>
+</html>

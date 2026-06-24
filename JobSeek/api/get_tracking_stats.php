@@ -10,7 +10,7 @@ try {
     $active->execute([$uid]); 
     $activeCount = $active->fetchColumn();
 
-    $interviews = $pdo->prepare("SELECT COUNT(*) FROM applications WHERE seeker_id = ? AND tracking_stage = 'Interview'"); 
+    $interviews = $pdo->prepare("SELECT COUNT(*) FROM applications WHERE seeker_id = ? AND status = 'Interviewing'"); 
     $interviews->execute([$uid]); 
     $interviewsCount = $interviews->fetchColumn();
 

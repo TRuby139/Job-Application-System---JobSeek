@@ -266,11 +266,18 @@
                 const trackerCol = document.querySelector('.tracker-col');
                 if(apps.success && apps.data) {
                     const cardsHtml = apps.data.map(app => {
-                        const stage = app.tracking_stage || 'Applied';
-                        let progress = 25;
-                        if(stage === 'Screen') progress = 50;
-                        if(stage === 'Interview') progress = 75;
-                        if(stage === 'Offer') progress = 100;
+                        const status = app.status || 'Pending';
+                        let progress = 0;
+                        let displayStage = 'Applied';
+                        let pillClass = 'pill--mint';
+                        let stepperClass = 'stepper--teal';
+                        
+                        if (status === 'Pending') { progress = 0; displayStage = 'Applied'; }
+                        else if (status === 'Interviewing') { progress = 50; displayStage = 'Interview'; }
+                        else if (status === 'Offered' || status === 'Accepted') { progress = 100; displayStage = 'Offer'; }
+                        else if (status === 'Declined' || status === 'Rejected') { 
+                            progress = 100; displayStage = 'Declined'; pillClass = 'pill--gray'; stepperClass = 'stepper--red'; 
+                        }
                         
                         return `
                         <article class="tracker-card">
@@ -278,16 +285,15 @@
                               <div class="tracker-card-id">
                                 <div><h3 class="tracker-title">${app.job_title}</h3><p class="tracker-company">${app.company_name}</p></div>
                               </div>
-                              <span class="pill pill--mint">${stage}</span>
+                              <span class="pill ${pillClass}">${displayStage.toUpperCase()}</span>
                             </div>
                             <div class="tracker-meta">
                               <span>${app.location || 'Remote'}</span><span class="dot">&bull;</span><span>${app.salary || '-'}</span>
                             </div>
-                            <div class="stepper stepper--teal">
+                            <div class="stepper ${stepperClass}">
                               <div class="stepper-labels">
-                                <span class="${progress>=25?'current':''} ${progress>25?'done':''}">Applied</span>
-                                <span class="${progress>=50?'current':''} ${progress>50?'done':''}">Screen</span>
-                                <span class="${progress>=75?'current':''} ${progress>75?'done':''}">Interview</span>
+                                <span class="${progress>=0?'current':''} ${progress>0?'done':''}">Applied</span>
+                                <span class="${progress>=50?'current':''} ${progress>50?'done':''}">Interview</span>
                                 <span class="${progress>=100?'current':''}">Offer</span>
                               </div>
                               <div class="stepper-track"><div class="stepper-fill" style="width:${progress}%"></div></div>

@@ -5,8 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     sendJsonResponse(false, 'Only POST requests are allowed.');
 }
 
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'seeker') {
-    sendJsonResponse(false, 'Unauthorized. Only job seekers can apply for jobs.');
+if (!isset($_SESSION['user_id'])) {
+    sendJsonResponse(false, 'Unauthorized. Please login to apply.');
 }
 
 $job_id = $_POST['job_id'] ?? null;
@@ -57,6 +57,25 @@ $stmt = $pdo->prepare('SELECT id FROM applications WHERE job_id = ? AND seeker_i
 $stmt->execute([$job_id, $seeker_id]);
 if ($stmt->fetch()) {
     sendJsonResponse(false, 'You have already applied for this job.');
+}
+
+// Check job status and closing date
+$stmt = $pdo->prepare('SELECT status, closing_date FROM jobs WHERE id = ?');
+$stmt->execute([$job_id]);
+$job = $stmt->fetch();
+if (!$job) {
+    sendJsonResponse(false, 'Job not found.');
+}
+if ($job['status'] === 'Closed') {
+    sendJsonResponse(false, 'This job is closed and no longer accepting applications.');
+}
+if ($job['closing_date']) {
+    $closingDate = new DateTime($job['closing_date']);
+    $today = new DateTime();
+    $today->setTime(0, 0, 0);
+    if ($closingDate < $today) {
+        sendJsonResponse(false, 'The closing date for this job has passed.');
+    }
 }
 
 try {

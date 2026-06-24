@@ -201,7 +201,7 @@
                 </div>
               </div>
               <div><span class="status-badge ${statusClass}">${job.status}</span></div>
-              <div style="text-align:right"><a class="action-link" href="#">Manage</a></div>
+              <div style="text-align:right"><a class="action-link" href="manage-job.html?id=${job.id}">Manage</a></div>
             `;
             container.appendChild(row);
         });
@@ -226,11 +226,37 @@
 
         // Page Numbers
         for (let i = 1; i <= totalPages; i++) {
-            const pageBtn = document.createElement('button');
-            pageBtn.innerText = i;
-            pageBtn.className = 'page-btn' + (currentPage === i ? ' active' : '');
-            pageBtn.onclick = (e) => { e.preventDefault(); currentPage = i; renderJobs(); };
-            paginationContainer.appendChild(pageBtn);
+            let shouldRender = false;
+            let isDots = false;
+
+            if (totalPages <= 6) {
+                shouldRender = true;
+            } else {
+                if (currentPage <= 4) {
+                    if (i <= 5 || i === totalPages) shouldRender = true;
+                    else if (i === 6) isDots = true;
+                } else if (currentPage >= totalPages - 3) {
+                    if (i === 1 || i >= totalPages - 4) shouldRender = true;
+                    else if (i === totalPages - 5) isDots = true;
+                } else {
+                    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) shouldRender = true;
+                    else if (i === currentPage - 2 || i === currentPage + 2) isDots = true;
+                }
+            }
+
+            if (shouldRender) {
+                const pageBtn = document.createElement('button');
+                pageBtn.innerText = i;
+                pageBtn.className = 'page-btn' + (currentPage === i ? ' active' : '');
+                pageBtn.onclick = (e) => { e.preventDefault(); currentPage = i; renderJobs(); };
+                paginationContainer.appendChild(pageBtn);
+            } else if (isDots) {
+                const dots = document.createElement('span');
+                dots.innerText = '...';
+                dots.style.padding = '0 10px';
+                dots.style.color = 'var(--gray)';
+                paginationContainer.appendChild(dots);
+            }
         }
 
         // Next Button
