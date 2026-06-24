@@ -349,6 +349,23 @@
                     card.dataset.id = app.application_id;
                     
                     const initials = app.applicant_name.substring(0, 2).toUpperCase();
+                    const statuses = ['Pending', 'Interviewing', 'Offered', 'Declined'];
+                    const currentIdx = statuses.indexOf(app.status);
+                    const prevStatus = currentIdx > 0 ? statuses[currentIdx - 1] : null;
+                    const nextStatus = currentIdx < statuses.length - 1 ? statuses[currentIdx + 1] : null;
+
+                    let moveButtons = '';
+                    if (prevStatus) {
+                        moveButtons += `<button class="btn-small move-btn" data-id="${app.application_id}" data-target="${prevStatus}" title="Move to ${prevStatus}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                        </button>`;
+                    }
+                    if (nextStatus) {
+                        moveButtons += `<button class="btn-small move-btn" data-id="${app.application_id}" data-target="${nextStatus}" title="Move to ${nextStatus}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>`;
+                    }
+
                     card.innerHTML = `
                         <div class="applicant-info">
                             <div class="applicant-avatar">${initials}</div>
@@ -357,7 +374,10 @@
                                 <div class="applicant-email">${app.applicant_email}</div>
                             </div>
                         </div>
-                        <div class="card-actions">
+                        <div class="card-actions" style="justify-content: space-between;">
+                            <div class="move-actions" style="display: flex; gap: 5px;">
+                                ${moveButtons}
+                            </div>
                             <a href="${app.resume_path}" target="_blank" class="btn-small" style="text-decoration:none;">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                                 Resume
@@ -420,6 +440,27 @@
                 });
             }
         });
+    });
+
+    // Move buttons logic for mobile
+    document.querySelector('.kanban-board').addEventListener('click', e => {
+        const moveBtn = e.target.closest('.move-btn');
+        if (moveBtn) {
+            const appId = moveBtn.dataset.id;
+            const newStatus = moveBtn.dataset.target;
+            if (appId && newStatus) {
+                // Dim button to show loading state
+                moveBtn.style.opacity = '0.5';
+                fetch('api/update_applicant_status.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ application_id: appId, status: newStatus })
+                }).then(r => r.json()).then(res => {
+                    if (!res.success) alert('Failed to update status.');
+                    loadJobData();
+                });
+            }
+        }
     });
 
     // Save Settings
