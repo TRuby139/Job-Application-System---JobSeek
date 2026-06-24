@@ -216,13 +216,13 @@
       <div class="modal-content" style="background:#fff; padding:30px; border-radius:12px; max-width:400px; width:90%; box-shadow:0 10px 25px rgba(0,0,0,0.1);">
           <h2 style="margin-top:0; font-size:24px; color:#0f172a;">Register Company</h2>
           <form id="companyForm" style="display:flex; flex-direction:column; gap:15px; margin-top:20px;">
-              <input type="text" id="compName" placeholder="Company Name" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-family:inherit;" />
-              <input type="text" id="compLocation" placeholder="Location" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-family:inherit;" />
-              <input type="text" id="compSector" placeholder="Sector" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-family:inherit;" />
-              <textarea id="compDetails" placeholder="Description" style="padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-family:inherit; min-height:80px;"></textarea>
+              <input type="text" id="compName" placeholder="Company Name" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              <input type="text" id="compLocation" placeholder="Location" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              <input type="text" id="compSector" placeholder="Sector" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              <textarea id="compDetails" placeholder="Description" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; min-height:80px;"></textarea>
               <div style="display:flex; gap:10px; margin-top:10px;">
-                  <button type="submit" class="btn-primary" style="flex:1;">Register</button>
-                  <button type="button" id="closeModalBtn" class="btn-secondary" style="flex:1;">Cancel</button>
+                  <button type="button" id="closeModalBtn" class="btn-secondary" style="flex:1; border-radius:8px; padding:12px 22px; font-size:14px; font-weight:600; cursor:pointer; background:#f1f5f9; border:1px solid #cbd5e1; color:#0f172a; display:flex; justify-content:center; align-items:center; transition:background 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">Cancel</button>
+                  <button type="submit" class="btn-primary" style="flex:1; justify-content:center;">Register</button>
               </div>
           </form>
       </div>
@@ -291,7 +291,7 @@
                     <div style="text-align:center; padding: 100px 20px;">
                         <h2>Register a Company</h2>
                         <p style="color:#64748b; margin-top:10px;">You haven't registered a company yet. Register to start posting jobs.</p>
-                        <button id="openRegisterModal" class="btn-primary" style="margin-top: 20px;">Register Company</button>
+                        <button id="openRegisterModal" class="btn-primary" style="margin: 20px auto 0; display: inline-flex; justify-content: center;">Register Company</button>
                     </div>
                 `;
 
