@@ -61,10 +61,6 @@ try {
     }
 
     $whereClause = implode(" AND ", $where);
-    
-    // Sort logic
-    $sortParam = isset($_GET['sort']) ? $_GET['sort'] : 'newest';
-    $orderClause = ($sortParam === 'oldest') ? 'ORDER BY j.created_at ASC' : 'ORDER BY j.created_at DESC';
 
     // Get total count
     $countQuery = "SELECT COUNT(*) FROM jobs j JOIN companies c ON j.company_id = c.id WHERE $whereClause";
@@ -79,7 +75,7 @@ try {
         FROM jobs j 
         JOIN companies c ON j.company_id = c.id 
         WHERE $whereClause
-        $orderClause
+        ORDER BY j.created_at DESC
         LIMIT $limit OFFSET $offset
     ";
     $stmt = $pdo->prepare($query);
