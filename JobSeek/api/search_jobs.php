@@ -6,6 +6,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 }
 
 try {
+    // Auto-migrate schema if columns are missing
+    try {
+        $pdo->query("SELECT type, experience FROM jobs LIMIT 1");
+    } catch (PDOException $e) {
+        $pdo->exec("ALTER TABLE jobs ADD COLUMN type ENUM('full-time', 'contract', 'remote') DEFAULT 'full-time'");
+        $pdo->exec("ALTER TABLE jobs ADD COLUMN experience ENUM('entry', 'mid', 'exec') DEFAULT 'mid'");
+        $pdo->exec("UPDATE jobs SET type = ELT(FLOOR(1 + (RAND() * 3)), 'full-time', 'contract', 'remote'), experience = ELT(FLOOR(1 + (RAND() * 3)), 'entry', 'mid', 'exec')");
+    }
+
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 8;
     $offset = ($page - 1) * $limit;
@@ -42,6 +51,13 @@ try {
         $placeholders = implode(',', array_fill(0, count($exp), '?'));
         $where[] = "j.experience IN ($placeholders)";
         $params = array_merge($params, $exp);
+    }
+
+    // Salary filter
+    if (!empty($_GET['min_salary'])) {
+        // Extract the first number from the salary string (e.g. "$80k - $100k" -> 80)
+        $where[] = "CAST(SUBSTRING_INDEX(REPLACE(j.salary, '$', ''), 'k', 1) AS UNSIGNED) >= ?";
+        $params[] = (int)$_GET['min_salary'];
     }
 
     $whereClause = implode(" AND ", $where);

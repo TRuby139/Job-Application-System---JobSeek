@@ -87,15 +87,11 @@
         </div>
 
         <div class="filter-group">
-          <h3 class="filter-title">SALARY RANGE</h3>
-          <div class="salary-slider">
-            <div class="slider-track">
-              <div class="slider-fill"></div>
-              <div class="slider-thumb" style="left: 0%;"></div>
-              <div class="slider-thumb" style="left: 100%;"></div>
-            </div>
-            <div class="salary-labels">
-              <span>$50k</span>
+          <h3 class="filter-title">MINIMUM SALARY</h3>
+          <div class="salary-slider-container" style="padding-top: 10px;">
+            <input type="range" id="minSalaryInput" min="50" max="200" value="50" step="10" style="width: 100%;">
+            <div class="salary-labels" style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 14px; color: #64748b;">
+              <span id="salaryMinLabel">$50k</span>
               <span>$200k+</span>
             </div>
           </div>
@@ -197,6 +193,8 @@
       
       const expRadio = document.querySelector('input[name="experience"]:checked');
       const exp = expRadio ? expRadio.value : '';
+      
+      const minSalary = document.getElementById('minSalaryInput') ? document.getElementById('minSalaryInput').value : '';
 
       // Build query string
       const params = new URLSearchParams();
@@ -204,30 +202,34 @@
       if (locInput) params.append('loc', locInput);
       if (types) params.append('type', types);
       if (exp) params.append('experience', exp);
+      if (minSalary && minSalary > 50) params.append('min_salary', minSalary);
       params.append('page', currentPage);
       params.append('limit', 8);
 
-      fetch('api/get_jobs.php?' + params.toString())
+      fetch('api/search_jobs.php?' + params.toString())
         .then(res => res.json())
         .then(data => {
+          const jobList = document.getElementById('jobList');
+          
+          const escapeHTML = (str) => {
+              const div = document.createElement('div');
+              div.textContent = str;
+              return div.innerHTML;
+          };
+
           if (data.success && data.data) {
             const jobsData = data.data.jobs;
             const total = data.data.total;
             const totalPages = data.data.totalPages;
 
-            const jobList = document.getElementById('jobList');
             jobList.innerHTML = '';
-            
             document.querySelector('.results-header h2').innerHTML = `<strong>${total}</strong> Opportunities found`;
             
-            const escapeHTML = (str) => {
-              const div = document.createElement('div');
-              div.textContent = str;
-              return div.innerHTML;
-            };
-
             let htmlString = '';
-            jobsData.forEach(job => {
+            if (jobsData.length === 0) {
+               htmlString = `<p style="padding: 20px; color: #64748b;">No opportunities matched your criteria.</p>`;
+            } else {
+              jobsData.forEach(job => {
               const shortDesc = job.description && job.description.length > 120 
                 ? job.description.substring(0, 120) + '...' 
                 : (job.description || '');
@@ -263,13 +265,22 @@
                   </div>
                 </article>
               `;
-            });
+              });
+            }
             jobList.innerHTML = htmlString;
-
             renderPagination(totalPages);
+          } else {
+            jobList.innerHTML = `<p style="padding: 20px; color: red;">Error: ${escapeHTML(data.message || 'Could not fetch jobs.')}</p>`;
+            document.querySelector('.results-header h2').innerHTML = `<strong>0</strong> Opportunities found`;
+            renderPagination(0);
           }
         })
-        .catch(err => console.error("Error fetching jobs:", err));
+        .catch(err => {
+            console.error("Error fetching jobs:", err);
+            document.getElementById('jobList').innerHTML = `<p style="padding: 20px; color: red;">Error connecting to the server.</p>`;
+            document.querySelector('.results-header h2').innerHTML = `<strong>0</strong> Opportunities found`;
+            renderPagination(0);
+        });
     }
 
     function renderPagination(totalPages) {
@@ -316,13 +327,24 @@
           });
       }
 
-      const filterInputs = document.querySelectorAll('#filterContent input');
+      const filterInputs = document.querySelectorAll('#filterContent input[type="checkbox"], #filterContent input[type="radio"]');
       filterInputs.forEach(input => {
           input.addEventListener('change', () => {
               currentPage = 1;
               fetchJobs();
           });
       });
+
+      const minSalaryInput = document.getElementById('minSalaryInput');
+      if (minSalaryInput) {
+          minSalaryInput.addEventListener('input', (e) => {
+              document.getElementById('salaryMinLabel').textContent = '$' + e.target.value + 'k';
+          });
+          minSalaryInput.addEventListener('change', () => {
+              currentPage = 1;
+              fetchJobs();
+          });
+      }
     });
   </script>
 </body>
