@@ -948,9 +948,11 @@ img {
 .table-head {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 24px;
+  min-width: 800px;
   align-items: center;
   padding: 15px 20px;
-  background: var(--light-gray);
+  background: var(--gray-lighter);
   color: var(--gray);
   font-size: 12px;
   font-weight: 600;
