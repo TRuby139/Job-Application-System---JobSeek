@@ -33,6 +33,8 @@ CREATE TABLE jobs (
     description TEXT NOT NULL,
     location VARCHAR(100) NOT NULL,
     salary VARCHAR(50),
+    type ENUM('full-time', 'contract', 'remote') DEFAULT 'full-time',
+    experience ENUM('entry', 'mid', 'exec') DEFAULT 'mid',
     status ENUM('Open', 'Closed') DEFAULT 'Open',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (employer_id) REFERENCES users(id) ON DELETE CASCADE,

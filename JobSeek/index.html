@@ -185,15 +185,40 @@
       });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      fetch('api/get_jobs.php')
+    let currentPage = 1;
+
+    function fetchJobs() {
+      // Gather inputs
+      const searchInput = document.querySelector('.hero-search-bar input[placeholder="Job title, keywords, or company"]').value;
+      const locInput = document.querySelector('.hero-search-bar input[placeholder="City or remote"]').value;
+      
+      const typeCheckboxes = document.querySelectorAll('input[name="jobType"]:checked');
+      const types = Array.from(typeCheckboxes).map(cb => cb.value).join(',');
+      
+      const expRadio = document.querySelector('input[name="experience"]:checked');
+      const exp = expRadio ? expRadio.value : '';
+
+      // Build query string
+      const params = new URLSearchParams();
+      if (searchInput) params.append('q', searchInput);
+      if (locInput) params.append('loc', locInput);
+      if (types) params.append('type', types);
+      if (exp) params.append('experience', exp);
+      params.append('page', currentPage);
+      params.append('limit', 8);
+
+      fetch('api/get_jobs.php?' + params.toString())
         .then(res => res.json())
         .then(data => {
           if (data.success && data.data) {
+            const jobsData = data.data.jobs;
+            const total = data.data.total;
+            const totalPages = data.data.totalPages;
+
             const jobList = document.getElementById('jobList');
             jobList.innerHTML = '';
             
-            document.querySelector('.results-header h2').innerHTML = `<strong>${data.data.length}</strong> Opportunities found`;
+            document.querySelector('.results-header h2').innerHTML = `<strong>${total}</strong> Opportunities found`;
             
             const escapeHTML = (str) => {
               const div = document.createElement('div');
@@ -202,7 +227,7 @@
             };
 
             let htmlString = '';
-            data.data.forEach(job => {
+            jobsData.forEach(job => {
               const shortDesc = job.description && job.description.length > 120 
                 ? job.description.substring(0, 120) + '...' 
                 : (job.description || '');
@@ -240,9 +265,64 @@
               `;
             });
             jobList.innerHTML = htmlString;
+
+            renderPagination(totalPages);
           }
         })
         .catch(err => console.error("Error fetching jobs:", err));
+    }
+
+    function renderPagination(totalPages) {
+      const paginationContainer = document.querySelector('.pagination');
+      if (!paginationContainer) return;
+
+      if (totalPages <= 1) {
+          paginationContainer.innerHTML = '';
+          return;
+      }
+
+      let html = '';
+      
+      html += `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>`;
+
+      for (let i = 1; i <= totalPages; i++) {
+          if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+              html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+          } else if (i === currentPage - 2 || i === currentPage + 2) {
+              html += `<span class="page-dots">...</span>`;
+          }
+      }
+
+      html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>`;
+
+      paginationContainer.innerHTML = html;
+    }
+
+    window.goToPage = function(page) {
+      currentPage = page;
+      fetchJobs();
+      window.scrollTo({ top: document.querySelector('.search-container').offsetTop - 50, behavior: 'smooth' });
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchJobs();
+
+      const searchForm = document.querySelector('.hero-search-bar');
+      if (searchForm) {
+          searchForm.addEventListener('submit', (e) => {
+              e.preventDefault();
+              currentPage = 1;
+              fetchJobs();
+          });
+      }
+
+      const filterInputs = document.querySelectorAll('#filterContent input');
+      filterInputs.forEach(input => {
+          input.addEventListener('change', () => {
+              currentPage = 1;
+              fetchJobs();
+          });
+      });
     });
   </script>
 </body>
