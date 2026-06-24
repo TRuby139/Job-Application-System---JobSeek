@@ -211,6 +211,23 @@
     </div>
   </main>
 
+  <!-- Modal -->
+  <div id="companyModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:9999;">
+      <div class="modal-content" style="background:#fff; padding:30px; border-radius:12px; max-width:400px; width:90%; box-shadow:0 10px 25px rgba(0,0,0,0.1);">
+          <h2 style="margin-top:0; font-size:24px; color:#0f172a;">Register Company</h2>
+          <form id="companyForm" style="display:flex; flex-direction:column; gap:15px; margin-top:20px;">
+              <input type="text" id="compName" placeholder="Company Name" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-family:inherit;" />
+              <input type="text" id="compLocation" placeholder="Location" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-family:inherit;" />
+              <input type="text" id="compSector" placeholder="Sector" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-family:inherit;" />
+              <textarea id="compDetails" placeholder="Description" style="padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-family:inherit; min-height:80px;"></textarea>
+              <div style="display:flex; gap:10px; margin-top:10px;">
+                  <button type="submit" class="btn-primary" style="flex:1;">Register</button>
+                  <button type="button" id="closeModalBtn" class="btn-secondary" style="flex:1;">Cancel</button>
+              </div>
+          </form>
+      </div>
+  </div>
+
   <!-- ========== FOOTER ========== -->
   <footer class="site-footer">
     <div class="footer-inner">
@@ -236,6 +253,82 @@
         mobileNav.classList.toggle('open');
       });
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('api/check_auth.php').then(r=>r.json()).then(data => {
+            const managementInner = document.querySelector('.management-inner');
+            if (!data.success) {
+                managementInner.innerHTML = `
+                    <div style="text-align:center; padding: 100px 20px;">
+                        <h2>Please Log In</h2>
+                        <p>You must be logged in to access the job management dashboard.</p>
+                        <a href="login.html" class="btn-login" style="display:inline-block; margin-top: 20px;">Login Here</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Handle Header Update
+            const headerActions = document.querySelector('.header-actions');
+            if (headerActions) {
+                const loginBtn = headerActions.querySelector('.btn-login');
+                if (loginBtn) {
+                    const userProfile = document.createElement('div');
+                    userProfile.style.display = 'flex';
+                    userProfile.style.alignItems = 'center'; userProfile.style.gap = '15px';
+                    userProfile.innerHTML = `<span style="font-weight: 500; font-size: 14px; color: #0f172a;" class="hide-mobile">Welcome, ${data.data.name}</span><a href="#" id="logoutBtn" class="btn-apply">Logout</a>`;
+                    headerActions.insertBefore(userProfile, loginBtn);
+                    loginBtn.remove();
+                    document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+                        e.preventDefault(); await fetch('api/logout.php'); window.location.reload();
+                    });
+                }
+            }
+
+            // Check if employer
+            if (data.data.role !== 'employer') {
+                managementInner.innerHTML = `
+                    <div style="text-align:center; padding: 100px 20px;">
+                        <h2>Register a Company</h2>
+                        <p style="color:#64748b; margin-top:10px;">You haven't registered a company yet. Register to start posting jobs.</p>
+                        <button id="openRegisterModal" class="btn-primary" style="margin-top: 20px;">Register Company</button>
+                    </div>
+                `;
+
+                document.getElementById('openRegisterModal').addEventListener('click', () => {
+                    document.getElementById('companyModal').style.display = 'flex';
+                });
+            }
+        });
+
+        // Modal Logic
+        const modal = document.getElementById('companyModal');
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        document.getElementById('companyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                name: document.getElementById('compName').value,
+                location: document.getElementById('compLocation').value,
+                sector: document.getElementById('compSector').value,
+                details: document.getElementById('compDetails').value
+            };
+
+            const res = await fetch('api/companies.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const result = await res.json();
+            if (result.success) {
+                window.location.reload();
+            } else {
+                alert(result.message || 'Failed to register company.');
+            }
+        });
+    });
   </script>
 </body>
 </html>

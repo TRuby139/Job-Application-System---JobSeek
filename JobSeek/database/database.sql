@@ -59,6 +59,8 @@ CREATE TABLE `companies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `employer_id` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `sector` varchar(100) DEFAULT NULL,
   `details` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
@@ -73,7 +75,7 @@ CREATE TABLE `companies` (
 
 LOCK TABLES `companies` WRITE;
 /*!40000 ALTER TABLE `companies` DISABLE KEYS */;
-INSERT INTO `companies` VALUES (3,2,'TechNova','A leading company in the tech sector.','2026-06-24 04:27:40'),(4,2,'Quantum Solutions','A leading company in the tech sector.','2026-06-24 04:27:40'),(5,2,'Apex Interactive','A leading company in the tech sector.','2026-06-24 04:27:40'),(6,2,'BlueSky Data','A leading company in the tech sector.','2026-06-24 04:27:40'),(7,2,'Zenith Systems','A leading company in the tech sector.','2026-06-24 04:27:40');
+INSERT INTO `companies` VALUES (3,2,'TechNova',NULL,NULL,'A leading company in the tech sector.','2026-06-24 04:27:40'),(4,2,'Quantum Solutions',NULL,NULL,'A leading company in the tech sector.','2026-06-24 04:27:40'),(5,2,'Apex Interactive',NULL,NULL,'A leading company in the tech sector.','2026-06-24 04:27:40'),(6,2,'BlueSky Data',NULL,NULL,'A leading company in the tech sector.','2026-06-24 04:27:40'),(7,2,'Zenith Systems',NULL,NULL,'A leading company in the tech sector.','2026-06-24 04:27:40');
 /*!40000 ALTER TABLE `companies` ENABLE KEYS */;
 UNLOCK TABLES;
 
