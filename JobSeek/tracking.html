@@ -179,6 +179,114 @@
         mobileNav.classList.toggle('open');
       });
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('api/check_auth.php').then(r=>r.json()).then(data => {
+            if (!data.success) {
+                document.querySelector('.tracking-inner').innerHTML = `
+                    <div style="text-align:center; padding: 100px 20px;">
+                        <h2>Please Log In</h2>
+                        <p>You must be logged in to view your tracking dashboard.</p>
+                        <a href="login.html" class="btn-login" style="display:inline-block; margin-top: 20px;">Login Here</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Handle Header
+            const headerActions = document.getElementById('headerActions') || document.querySelector('.header-actions');
+            if (headerActions) {
+                const loginBtn = headerActions.querySelector('.btn-login');
+                if (loginBtn) {
+                    const userProfile = document.createElement('div');
+                    userProfile.style.display = 'flex';
+                    userProfile.style.alignItems = 'center'; userProfile.style.gap = '15px';
+                    userProfile.innerHTML = `<span style="font-weight: 500; font-size: 14px; color: #0f172a;" class="hide-mobile">Welcome, ${data.data.name}</span><a href="#" id="logoutBtn" class="btn-apply">Logout</a>`;
+                    headerActions.insertBefore(userProfile, loginBtn);
+                    loginBtn.remove();
+                    document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+                        e.preventDefault(); await fetch('api/logout.php'); window.location.reload();
+                    });
+                }
+            }
+
+            // Fetch Stats
+            fetch('api/get_tracking_stats.php').then(r=>r.json()).then(stats => {
+                if(stats.success) {
+                    const d = stats.data;
+                    document.querySelector('.hero p').innerText = `You're making progress. You have ${d.interviews} upcoming interviews and ${d.active_applications} active applications in motion.`;
+                    const statValues = document.querySelectorAll('.stat-value');
+                    if(statValues.length >= 3) {
+                        statValues[0].innerText = d.active_applications;
+                        statValues[1].innerText = d.interviews;
+                        statValues[2].innerText = d.saved_roles;
+                    }
+                }
+            });
+
+            // Fetch Applications and Render
+            fetch('api/get_applications.php').then(r=>r.json()).then(apps => {
+                const trackerCol = document.querySelector('.tracker-col');
+                if(apps.success && apps.data) {
+                    const cardsHtml = apps.data.map(app => {
+                        const stage = app.tracking_stage || 'Applied';
+                        let progress = 25;
+                        if(stage === 'Screen') progress = 50;
+                        if(stage === 'Interview') progress = 75;
+                        if(stage === 'Offer') progress = 100;
+                        
+                        return `
+                        <article class="tracker-card">
+                            <div class="tracker-card-top">
+                              <div class="tracker-card-id">
+                                <div><h3 class="tracker-title">${app.job_title}</h3><p class="tracker-company">${app.company_name}</p></div>
+                              </div>
+                              <span class="pill pill--mint">${stage}</span>
+                            </div>
+                            <div class="tracker-meta">
+                              <span>${app.location || 'Remote'}</span><span class="dot">&bull;</span><span>${app.salary || '-'}</span>
+                            </div>
+                            <div class="stepper stepper--teal">
+                              <div class="stepper-labels">
+                                <span class="${progress>=25?'current':''} ${progress>25?'done':''}">Applied</span>
+                                <span class="${progress>=50?'current':''} ${progress>50?'done':''}">Screen</span>
+                                <span class="${progress>=75?'current':''} ${progress>75?'done':''}">Interview</span>
+                                <span class="${progress>=100?'current':''}">Offer</span>
+                              </div>
+                              <div class="stepper-track"><div class="stepper-fill" style="width:${progress}%"></div></div>
+                            </div>
+                        </article>`;
+                    }).join('');
+                    trackerCol.innerHTML = '<h2 class="col-heading">Process Tracker</h2>' + (cardsHtml || '<p>No applications found.</p>');
+                }
+            });
+
+            // Render Saved Roles section
+            fetch('api/get_saved_jobs.php').then(r=>r.json()).then(jobs => {
+                if(jobs.success && jobs.data) {
+                    const savedHtml = jobs.data.map(job => `
+                    <article class="job-card">
+                        <div class="job-header">
+                            <div><h3 class="job-title">${job.title}</h3><p class="job-company">${job.company_name}</p></div>
+                            <button onclick="unsaveJob(${job.id})" class="btn-apply" style="background:#ef4444; color:white;">Unsave</button>
+                        </div>
+                    </article>`).join('');
+                    
+                    const dashboard = document.querySelector('.dashboard-grid');
+                    const savedSection = document.createElement('section');
+                    savedSection.className = 'tracker-col';
+                    savedSection.style.marginTop = '40px';
+                    savedSection.innerHTML = '<h2 class="col-heading">Saved Roles</h2><div class="job-list-container">' + (savedHtml || '<p>No saved roles.</p>') + '</div>';
+                    dashboard.appendChild(savedSection);
+                }
+            });
+        });
+    });
+
+    window.unsaveJob = async function(jobId) {
+        await fetch('api/save_job.php', { method: 'POST', body: JSON.stringify({job_id: jobId}) });
+        window.location.reload();
+    };
   </script>
 </body>
 </html>
