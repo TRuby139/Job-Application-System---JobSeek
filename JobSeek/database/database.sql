@@ -29,6 +29,7 @@ CREATE TABLE `applications` (
   `cover_letter` text NOT NULL,
   `resume_path` varchar(255) DEFAULT NULL,
   `status` enum('Pending','Accepted','Rejected') DEFAULT 'Pending',
+  `tracking_stage` enum('Applied','Screen','Interview','Offer') DEFAULT 'Applied',
   `applied_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `job_id` (`job_id`),
@@ -141,6 +142,26 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,'System Admin','admin@admin.com','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','admin','2026-06-24 04:19:53'),(2,'Tech Employer','employer@company.com','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','employer','2026-06-24 04:19:53'),(3,'Job Seeker','seeker@seeker.com','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','seeker','2026-06-24 04:19:53'),(4,'Test','test@test.com','$2y$10$Gv6mhS.71Mvca9xNlkzAneGrvxBRO3iS4iPJ6xuV4tOI1OenZ35ju','seeker','2026-06-24 04:20:43'),(5,'TR','TR@gmail.com','$2y$10$nKGvVh3at6RUdxO0nWIhfeb0eCgEnbf837XAfbaOA7leSdYIqhrrO','seeker','2026-06-24 04:21:45'),(6,'Gmail Test','myaccount@gmail.com','$2y$10$yl8Mqpc3u4a4Sh4/5S6uuuAHekg8szDU1X2nh9v0WNyjhUfcyW8Ke','seeker','2026-06-24 04:27:03');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `saved_jobs`
+--
+
+DROP TABLE IF EXISTS `saved_jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `saved_jobs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `saved_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_save` (`user_id`,`job_id`),
+  KEY `job_id` (`job_id`),
+  CONSTRAINT `saved_jobs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `saved_jobs_ibfk_2` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
