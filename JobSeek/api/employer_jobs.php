@@ -10,7 +10,15 @@ $employer_id = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try {
-        $stmt = $pdo->prepare('SELECT id, title, location, type, status, created_at FROM jobs WHERE employer_id = ? ORDER BY created_at DESC');
+        $stmt = $pdo->prepare('
+            SELECT j.id, j.title, j.location, j.type, j.status, j.created_at,
+                   COUNT(CASE WHEN a.status = \'Pending\' THEN 1 END) AS new_applicants_count
+            FROM jobs j
+            LEFT JOIN applications a ON j.id = a.job_id
+            WHERE j.employer_id = ?
+            GROUP BY j.id
+            ORDER BY j.created_at DESC
+        ');
         $stmt->execute([$employer_id]);
         $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         sendJsonResponse(true, 'Jobs fetched successfully', $jobs);
