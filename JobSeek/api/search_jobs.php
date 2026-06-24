@@ -69,11 +69,14 @@ try {
     $total = $countStmt->fetchColumn();
     $totalPages = ceil($total / $limit);
 
+    $userId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0;
+
     // Fetch paginated jobs
     $query = "
-        SELECT j.*, c.name as company_name 
+        SELECT j.*, c.name as company_name, (sj.id IS NOT NULL) as is_saved
         FROM jobs j 
         JOIN companies c ON j.company_id = c.id 
+        LEFT JOIN saved_jobs sj ON sj.job_id = j.id AND sj.user_id = $userId
         WHERE $whereClause
         ORDER BY j.created_at DESC
         LIMIT $limit OFFSET $offset
