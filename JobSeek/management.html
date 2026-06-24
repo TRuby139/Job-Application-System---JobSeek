@@ -85,6 +85,7 @@
           <!-- Table header -->
           <div class="table-head">
           <span>Job Title &amp; Details</span>
+          <span style="text-align:center">New Applicants</span>
           <span>Status</span>
           <span style="text-align:right">Actions</span>
         </div>
@@ -180,6 +181,17 @@
         if (!container) return;
         container.innerHTML = '';
         
+        // Sort jobs before paginating
+        currentFilteredJobs.sort((a, b) => {
+            const countA = parseInt(a.new_applicants_count) || 0;
+            const countB = parseInt(b.new_applicants_count) || 0;
+            if (countA > 0 && countB === 0) return -1;
+            if (countB > 0 && countA === 0) return 1;
+            
+            // If both have counts or both don't, sort by created_at DESC
+            return new Date(b.created_at) - new Date(a.created_at);
+        });
+
         const startIndex = (currentPage - 1) * jobsPerPage;
         const endIndex = startIndex + jobsPerPage;
         const displayJobs = currentFilteredJobs.slice(startIndex, endIndex);
@@ -187,19 +199,29 @@
         displayJobs.forEach(job => {
             const row = document.createElement('div');
             row.className = 'job-row';
+            // We need 4 columns now
+            row.style.display = 'grid';
+            row.style.gridTemplateColumns = '2fr 1fr 1fr 1fr';
+            row.style.alignItems = 'center';
+            row.style.padding = '15px 20px';
+            row.style.borderBottom = '1px solid #e2e8f0';
             
-            // Define status class mapping
             let statusClass = 's-active';
-            if (job.status.toLowerCase() === 'closed') statusClass = 's-draft'; // Using s-draft grey as closed
+            if (job.status.toLowerCase() === 'closed') statusClass = 's-draft';
             
+            const newCount = parseInt(job.new_applicants_count) || 0;
+            const titlePrefix = newCount > 0 ? '<span class="new-indicator"></span>' : '';
+            const countDisplay = newCount > 0 ? `<span style="color:var(--blue); font-weight:600;">${newCount}</span>` : '<span style="color:var(--gray);">-</span>';
+
             row.innerHTML = `
               <div>
-                <div class="job-title">${job.title}</div>
+                <div class="job-title">${titlePrefix}${job.title}</div>
                 <div class="job-meta">
                   <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                   ${job.location} &bull; ${job.type}
                 </div>
               </div>
+              <div style="text-align:center">${countDisplay}</div>
               <div><span class="status-badge ${statusClass}">${job.status}</span></div>
               <div style="text-align:right"><a class="action-link" href="manage-job.html?id=${job.id}">Manage</a></div>
             `;
