@@ -16,7 +16,7 @@ try {
     if ($user_role === 'seeker') {
         // Seekers see their own applications
         $query = "
-            SELECT a.*, j.title as job_title, c.name as company_name 
+            SELECT a.*, j.title as job_title, j.location, j.salary, c.name as company_name 
             FROM applications a
             JOIN jobs j ON a.job_id = j.id
             JOIN companies c ON j.company_id = c.id
