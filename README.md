@@ -39,7 +39,7 @@ Users can also register a new account by themselves directly through the applica
    - **Job Details** (`job-details.html`): Provides a dedicated view for individual job postings, where applicants can read full job descriptions and apply for the role directly.
 
 3. **Employer Dashboard & Job Management**
-   - **Management Hub** (`management.html`): A comprehensive dashboard for employers replacing hardcoded postings with dynamic database rendering.
+   - **Management Hub** (`management.html`): A comprehensive dashboard for employers replacing hardcoded postings with dynamic database rendering. Also allow employers to edit the job details.
    - **Active Postings**: Features a dynamic table for tracking active job postings that automatically sorts listings and highlights the `new_applicants_count` for each job. It also includes live search filtering and pagination specifically for employers.
 
 4. **Applicant Tracking (Kanban Board)**
