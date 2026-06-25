@@ -185,10 +185,9 @@
         currentFilteredJobs.sort((a, b) => {
             const countA = parseInt(a.new_applicants_count) || 0;
             const countB = parseInt(b.new_applicants_count) || 0;
-            if (countA > 0 && countB === 0) return -1;
-            if (countB > 0 && countA === 0) return 1;
+            if (countA !== countB) return countB - countA;
             
-            // If both have counts or both don't, sort by created_at DESC
+            // If counts are equal, sort by created_at DESC
             return new Date(b.created_at) - new Date(a.created_at);
         });
 
@@ -199,12 +198,7 @@
         displayJobs.forEach(job => {
             const row = document.createElement('div');
             row.className = 'job-row';
-            // We need 4 columns now
-            row.style.display = 'grid';
-            row.style.gridTemplateColumns = '2fr 1fr 1fr 1fr';
-            row.style.alignItems = 'center';
-            row.style.padding = '15px 20px';
-            row.style.borderBottom = '1px solid #e2e8f0';
+            
             
             let statusClass = 's-active';
             if (job.status.toLowerCase() === 'closed') statusClass = 's-draft';
