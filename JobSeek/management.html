@@ -86,7 +86,7 @@
           <div class="table-head">
           <span>Job Title &amp; Details</span>
           <span style="text-align:center">New Applicants</span>
-          <span>Status</span>
+          <span style="text-align:center">Status</span>
           <span style="text-align:right">Actions</span>
         </div>
 
@@ -257,9 +257,9 @@
                 </div>
               </div>
               <div style="text-align:center">${countDisplay}</div>
-              <div><span class="status-badge ${statusClass}">${job.status}</span></div>
+              <div style="text-align:center"><span class="status-badge ${statusClass}">${job.status}</span></div>
               <div style="text-align:right; position:relative;">
-                  <button class="action-btn" onclick="toggleDropdown(event, ${job.id})" style="background:none; border:none; cursor:pointer; font-size:18px; color:#64748b; padding:4px 8px; border-radius:4px;">...</button>
+                  <button class="action-btn" onclick="toggleDropdown(event, ${job.id})" style="background:none; border:none; cursor:pointer; font-size:18px; font-weight:700; color:#0f172a; padding:4px 8px; border-radius:4px;">...</button>
                   <div id="dropdown-${job.id}" class="job-dropdown" style="display:none; position:absolute; right:0; top:100%; background:#fff; border:1px solid #e2e8f0; border-radius:6px; box-shadow:0 4px 6px -1px rgba(0,0,0,0.1); z-index:10; min-width:120px; padding:4px 0;">
                       <a href="#" onclick="openEditModal(${job.id}); return false;" style="display:block; padding:8px 16px; color:#0f172a; text-decoration:none; font-size:14px; text-align:left;">Edit</a>
                       <a href="manage-job.html?id=${job.id}" style="display:block; padding:8px 16px; color:#0f172a; text-decoration:none; font-size:14px; text-align:left;">Manage</a>

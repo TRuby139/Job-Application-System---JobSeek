@@ -953,7 +953,7 @@ img {
   min-width: 800px;
   align-items: center;
   padding: 15px 20px;
-  background: var(--gray-lighter);
+  background: rgb(246, 247, 250);
   color: var(--gray);
   font-size: 12px;
   font-weight: 600;
