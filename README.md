@@ -19,3 +19,11 @@ This project uses a pure PHP and MySQL backend. Follow these steps to run it loc
 
 All backend endpoints are located in the `api/` directory and return JSON responses.
 When connecting the frontend to these endpoints, ensure your `fetch()` calls include `credentials: 'include'` to maintain session state.
+
+## Test Accounts
+
+For testing the application, you can use the following pre-registered accounts:
+- **Email:** TR@gmail.com | **Password:** 123456
+- **Email:** Test@gmail.com | **Password:** 123456
+
+Users can also register a new account by themselves directly through the application's registration page.
