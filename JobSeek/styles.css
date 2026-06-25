@@ -843,6 +843,18 @@ img {
    MANAGEMENT PAGE - JOB MANAGEMENT
    =================================== */
 
+.management-page {
+  background: var(--page-bg);
+  flex: 1;
+}
+
+.management-inner {
+  width: 90%;
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 36px 24px 60px;
+}
+
 
 /* -- Hero Row -- */
 

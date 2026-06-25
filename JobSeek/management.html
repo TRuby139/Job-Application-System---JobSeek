@@ -155,6 +155,47 @@
       </div>
   </div>
 
+  <!-- Edit Job Modal -->
+  <div id="editJobModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:9999;">
+      <div class="modal-content" style="background:#fff; padding:30px; border-radius:12px; max-width:500px; width:90%; box-shadow:0 10px 25px rgba(0,0,0,0.1); max-height:90vh; overflow-y:auto;">
+          <h2 style="margin-top:0; font-size:24px; color:#0f172a;">Edit Job</h2>
+          <form id="editJobForm" style="display:flex; flex-direction:column; gap:15px; margin-top:20px;">
+              <input type="hidden" id="editJobId" />
+              <input type="text" id="editJobTitle" placeholder="Job Title" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              <input type="text" id="editJobLocation" placeholder="Location" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              <input type="text" id="editJobSalary" placeholder="Salary (e.g. $100k - $130k)" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              
+              <div style="display:flex; gap:15px;">
+                  <select id="editJobType" required style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; background:#fff;">
+                      <option value="" disabled>Job Type</option>
+                      <option value="full-time">Full-time</option>
+                      <option value="contract">Contract</option>
+                      <option value="remote">Remote</option>
+                  </select>
+                  <select id="editJobExperience" required style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; background:#fff;">
+                      <option value="" disabled>Experience</option>
+                      <option value="entry">Entry Level</option>
+                      <option value="mid">Mid Level</option>
+                      <option value="exec">Executive</option>
+                  </select>
+              </div>
+
+              <select id="editJobStatus" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; background:#fff;">
+                  <option value="" disabled>Status</option>
+                  <option value="Open">Open</option>
+                  <option value="Closed">Closed</option>
+              </select>
+
+              <textarea id="editJobDescription" placeholder="Job Description" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; min-height:100px;"></textarea>
+              
+              <div style="display:flex; gap:10px; margin-top:10px;">
+                  <button type="button" id="closeEditJobModalBtn" class="btn-secondary" style="flex:1; border-radius:8px; padding:12px 22px; font-size:14px; font-weight:600; cursor:pointer; background:#f1f5f9; border:1px solid #cbd5e1; color:#0f172a; display:flex; justify-content:center; align-items:center; transition:background 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">Cancel</button>
+                  <button type="submit" class="btn-primary" style="flex:1; justify-content:center;">Save Changes</button>
+              </div>
+          </form>
+      </div>
+  </div>
+
   <!-- ========== FOOTER ========== -->
   <footer class="site-footer">
     <div class="footer-inner">
@@ -217,7 +258,13 @@
               </div>
               <div style="text-align:center">${countDisplay}</div>
               <div><span class="status-badge ${statusClass}">${job.status}</span></div>
-              <div style="text-align:right"><a class="action-link" href="manage-job.html?id=${job.id}">Manage</a></div>
+              <div style="text-align:right; position:relative;">
+                  <button class="action-btn" onclick="toggleDropdown(event, ${job.id})" style="background:none; border:none; cursor:pointer; font-size:18px; color:#64748b; padding:4px 8px; border-radius:4px;">...</button>
+                  <div id="dropdown-${job.id}" class="job-dropdown" style="display:none; position:absolute; right:0; top:100%; background:#fff; border:1px solid #e2e8f0; border-radius:6px; box-shadow:0 4px 6px -1px rgba(0,0,0,0.1); z-index:10; min-width:120px; padding:4px 0;">
+                      <a href="#" onclick="openEditModal(${job.id}); return false;" style="display:block; padding:8px 16px; color:#0f172a; text-decoration:none; font-size:14px; text-align:left;">Edit</a>
+                      <a href="manage-job.html?id=${job.id}" style="display:block; padding:8px 16px; color:#0f172a; text-decoration:none; font-size:14px; text-align:left;">Manage</a>
+                  </div>
+              </div>
             `;
             container.appendChild(row);
         });
@@ -281,6 +328,47 @@
         nextBtn.className = 'page-btn' + (currentPage === totalPages ? ' disabled' : '');
         nextBtn.onclick = (e) => { e.preventDefault(); if (currentPage < totalPages) { currentPage++; renderJobs(); } };
         paginationContainer.appendChild(nextBtn);
+    }
+
+    function toggleDropdown(event, jobId) {
+        event.stopPropagation();
+        // Close all other dropdowns
+        document.querySelectorAll('.job-dropdown').forEach(el => {
+            if (el.id !== 'dropdown-' + jobId) el.style.display = 'none';
+        });
+        const dropdown = document.getElementById('dropdown-' + jobId);
+        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.job-dropdown').forEach(el => el.style.display = 'none');
+    });
+
+    async function openEditModal(jobId) {
+        const editModal = document.getElementById('editJobModal');
+        try {
+            const res = await fetch('api/employer_get_job.php?id=' + jobId);
+            const data = await res.json();
+            if (data.success) {
+                const job = data.data;
+                document.getElementById('editJobId').value = job.id;
+                document.getElementById('editJobTitle').value = job.title;
+                document.getElementById('editJobLocation').value = job.location;
+                document.getElementById('editJobSalary').value = job.salary;
+                document.getElementById('editJobType').value = job.type;
+                document.getElementById('editJobExperience').value = job.experience;
+                document.getElementById('editJobStatus').value = job.status;
+                document.getElementById('editJobDescription').value = job.description;
+                
+                editModal.style.display = 'flex';
+            } else {
+                alert('Failed to load job: ' + data.message);
+            }
+        } catch (e) {
+            console.error(e);
+            alert('An error occurred while loading the job.');
+        }
     }
 
     const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -464,6 +552,57 @@
                 window.location.reload();
             } else {
                 alert(result.message || 'Failed to post job.');
+            }
+        });
+
+        // Edit Job Logic
+        const editJobModal = document.getElementById('editJobModal');
+        document.getElementById('closeEditJobModalBtn').addEventListener('click', () => {
+            editJobModal.style.display = 'none';
+        });
+
+        document.getElementById('editJobForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('id', document.getElementById('editJobId').value);
+            formData.append('title', document.getElementById('editJobTitle').value);
+            formData.append('location', document.getElementById('editJobLocation').value);
+            formData.append('salary', document.getElementById('editJobSalary').value);
+            formData.append('type', document.getElementById('editJobType').value);
+            formData.append('experience', document.getElementById('editJobExperience').value);
+            formData.append('status', document.getElementById('editJobStatus').value);
+            formData.append('description', document.getElementById('editJobDescription').value);
+
+            try {
+                const res = await fetch('api/edit_job.php', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (data.success) {
+                    editJobModal.style.display = 'none';
+                    // Refresh the jobs list
+                    const refreshRes = await fetch('api/employer_jobs.php');
+                    const refreshData = await refreshRes.json();
+                    if (refreshData.success) {
+                        allEmployerJobs = refreshData.data;
+                        
+                        // Re-apply filter if any
+                        const query = document.getElementById('jobFilterInput').value.toLowerCase();
+                        if (query) {
+                            currentFilteredJobs = allEmployerJobs.filter(job => 
+                                job.title.toLowerCase().includes(query) || 
+                                job.location.toLowerCase().includes(query)
+                            );
+                        } else {
+                            currentFilteredJobs = allEmployerJobs;
+                        }
+                        
+                        renderJobs();
+                    }
+                } else {
+                    alert(data.message || 'Failed to edit job.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('An error occurred.');
             }
         });
     });
