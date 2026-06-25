@@ -51,8 +51,8 @@
   </header>
 
   <!-- ========== MAIN CONTENT ========== -->
-  <main class="management-page">
-    <div class="management-inner">
+  <main class="tracking-page">
+    <div class="tracking-inner">
 
       <!-- HERO ROW -->
       <div class="hero-row">
@@ -295,7 +295,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         fetch('api/check_auth.php').then(r=>r.json()).then(async data => {
-            const managementInner = document.querySelector('.management-inner');
+            const managementInner = document.querySelector('.tracking-inner');
             if (!data.success) {
                 managementInner.innerHTML = `
                     <div style="text-align:center; padding: 100px 20px;">
