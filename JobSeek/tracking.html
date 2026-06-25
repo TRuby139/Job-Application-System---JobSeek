@@ -9,6 +9,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .mobile-profile, .mobile-login-link {
+      display: none;
+    }
+    @media (max-width: 740px) {
+      .desktop-profile, .btn-login {
+        display: none !important;
+      }
+      .mobile-profile, .mobile-login-link {
+        display: block;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -22,6 +35,7 @@
           <li><a href="index.html" class="nav-link">Job Search</a></li>
           <li><a href="tracking.html" class="nav-link active">Process Tracking</a></li>
           <li><a href="management.html" class="nav-link">Job Management</a></li>
+          <li class="mobile-login-link"><a href="login.html" class="nav-link" style="color:var(--blue); font-weight:600;">Login</a></li>
         </ul>
       </nav>
 
@@ -179,6 +193,176 @@
         mobileNav.classList.toggle('open');
       });
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('api/check_auth.php').then(r=>r.json()).then(data => {
+            if (!data.success) {
+                document.querySelector('.tracking-inner').innerHTML = `
+                    <div style="text-align:center; padding: 100px 20px;">
+                        <h2>Please Log In</h2>
+                        <p>You must be logged in to view your tracking dashboard.</p>
+                        <a href="login.html" class="btn-login" style="display:inline-block; margin-top: 20px;">Login Here</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Handle Header & Mobile Nav
+            const headerActions = document.querySelector('.header-actions');
+            const mobileNavUl = document.querySelector('#mobileNav ul');
+            if (headerActions) {
+                const loginBtn = headerActions.querySelector('.btn-login');
+                if (loginBtn) {
+                    // Desktop Profile
+                    const userProfile = document.createElement('div');
+                    userProfile.className = 'desktop-profile';
+                    userProfile.style.display = 'flex';
+                    userProfile.style.alignItems = 'center'; userProfile.style.gap = '15px';
+                    userProfile.innerHTML = `<span style="font-weight: 500; font-size: 14px; color: #0f172a;">Welcome, ${data.data.name}</span><a href="#" class="btn-apply logout-btn">Logout</a>`;
+                    headerActions.insertBefore(userProfile, loginBtn);
+                    loginBtn.remove();
+
+                    // Mobile Profile logic
+                    if (mobileNavUl) {
+                        const mobileLogin = document.querySelector('.mobile-login-link');
+                        if (mobileLogin) mobileLogin.remove();
+
+                        const welcomeLi = document.createElement('li');
+                        welcomeLi.className = 'mobile-profile';
+                        welcomeLi.innerHTML = `<span style="display:block; font-weight:600; color:#0f172a; padding-bottom:16px; margin-bottom:8px; border-bottom:1px solid #e2e8f0;">Welcome, ${data.data.name}</span>`;
+                        mobileNavUl.insertBefore(welcomeLi, mobileNavUl.firstChild);
+
+                        const logoutLi = document.createElement('li');
+                        logoutLi.className = 'mobile-profile';
+                        logoutLi.innerHTML = `<a href="#" class="nav-link logout-btn" style="color:#ef4444; font-weight:600;">Logout</a>`;
+                        mobileNavUl.appendChild(logoutLi);
+                    }
+
+                    // Attach logout event listeners
+                    document.querySelectorAll('.logout-btn').forEach(btn => {
+                        btn.addEventListener('click', async (e) => {
+                            e.preventDefault(); await fetch('api/logout.php'); window.location.reload();
+                        });
+                    });
+                }
+            }
+
+            // Fetch Stats
+            fetch('api/get_tracking_stats.php').then(r=>r.json()).then(stats => {
+                if(stats.success) {
+                    const d = stats.data;
+                    document.querySelector('.hero p').innerText = `You're making progress. You have ${d.interviews} upcoming interviews and ${d.active_applications} active applications in motion.`;
+                    const statValues = document.querySelectorAll('.stat-value');
+                    if(statValues.length >= 3) {
+                        statValues[0].innerText = d.active_applications;
+                        statValues[1].innerText = d.interviews;
+                        statValues[2].innerText = d.saved_roles;
+                    }
+                }
+            });
+
+            // Fetch Applications and Render
+            fetch('api/get_applications.php').then(r=>r.json()).then(apps => {
+                const trackerCol = document.querySelector('.tracker-col');
+                if(apps.success && apps.data) {
+                    const cardsHtml = apps.data.map(app => {
+                        const status = app.status || 'Pending';
+                        let progress = 0;
+                        let displayStage = 'Applied';
+                        let pillClass = 'pill--mint';
+                        let stepperClass = 'stepper--teal';
+                        
+                        if (status === 'Pending') { progress = 0; displayStage = 'Applied'; }
+                        else if (status === 'Interviewing') { progress = 50; displayStage = 'Interview'; }
+                        else if (status === 'Offered' || status === 'Accepted') { progress = 100; displayStage = 'Offer'; }
+                        else if (status === 'Declined' || status === 'Rejected') { 
+                            progress = 100; displayStage = 'Declined'; pillClass = 'pill--gray'; stepperClass = 'stepper--red'; 
+                        }
+                        
+                        return `
+                        <article class="tracker-card">
+                            <div class="tracker-card-top">
+                              <div class="tracker-card-id">
+                                <div><h3 class="tracker-title">${app.job_title}</h3><p class="tracker-company">${app.company_name}</p></div>
+                              </div>
+                              <span class="pill ${pillClass}">${displayStage.toUpperCase()}</span>
+                            </div>
+                            <div class="tracker-meta">
+                              <span>${app.location || 'Remote'}</span><span class="dot">&bull;</span><span>${app.salary || '-'}</span>
+                            </div>
+                            <div class="stepper ${stepperClass}">
+                              <div class="stepper-labels">
+                                <span class="${progress>=0?'current':''} ${progress>0?'done':''}">Applied</span>
+                                <span class="${progress>=50?'current':''} ${progress>50?'done':''}">Interview</span>
+                                <span class="${progress>=100?'current':''}">Offer</span>
+                              </div>
+                              <div class="stepper-track"><div class="stepper-fill" style="width:${progress}%"></div></div>
+                            </div>
+                        </article>`;
+                    }).join('');
+                    trackerCol.innerHTML = '<h2 class="col-heading">Process Tracker</h2>' + (cardsHtml || '<p>No applications found.</p>');
+                }
+            });
+
+            // Render Saved Roles section
+            fetch('api/get_saved_jobs.php').then(r=>r.json()).then(jobs => {
+                if(jobs.success && jobs.data) {
+                    const escapeHTML = (str) => {
+                        const div = document.createElement('div');
+                        div.textContent = str;
+                        return div.innerHTML;
+                    };
+                    const savedHtml = jobs.data.map(job => {
+                        const shortDesc = job.description && job.description.length > 120 
+                          ? job.description.substring(0, 120) + '...' 
+                          : (job.description || '');
+                        const title = escapeHTML(job.title || '');
+                        const companyName = escapeHTML(job.company_name || '');
+                        const location = escapeHTML(job.location || '');
+                        const desc = escapeHTML(shortDesc);
+                        const salary = escapeHTML(job.salary || 'Competitive');
+                        return `
+                        <article class="job-card">
+                          <div class="job-card-main">
+                            <div class="job-icon icon-blue">
+                              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                            </div>
+                            <div class="job-info">
+                              <div class="job-title-row">
+                                <h3>${title}</h3>
+                                <span class="badge-new">NEW</span>
+                              </div>
+                              <p class="job-company">${companyName} &bull; ${location}</p>
+                              <p class="job-desc">${desc}</p>
+                              <div class="job-tags">
+                                <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> ${salary}</span>
+                                <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Full-time</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="job-card-actions">
+                            <a href="job-details.html?id=${job.id}" class="btn-apply">Apply Now</a>
+                            <button class="btn-bookmark" onclick="unsaveJob(${job.id})"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+                          </div>
+                        </article>
+                        `;
+                    }).join('');
+                    
+                    const dashboard = document.querySelector('.dashboard-grid');
+                    const savedSection = document.createElement('section');
+                    savedSection.className = 'tracker-col';
+                    savedSection.style.marginTop = '40px';
+                    savedSection.innerHTML = '<h2 class="col-heading">Saved Roles</h2><div class="job-list-container">' + (savedHtml || '<p>No saved roles.</p>') + '</div>';
+                    dashboard.appendChild(savedSection);
+                }
+            });
+        });
+    });
+
+    window.unsaveJob = async function(jobId) {
+        await fetch('api/save_job.php', { method: 'POST', body: JSON.stringify({job_id: jobId}) });
+        window.location.reload();
+    };
   </script>
 </body>
 </html>

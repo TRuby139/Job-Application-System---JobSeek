@@ -9,6 +9,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .mobile-profile, .mobile-login-link {
+      display: none;
+    }
+    @media (max-width: 740px) {
+      .desktop-profile, .btn-login {
+        display: none !important;
+      }
+      .mobile-profile, .mobile-login-link {
+        display: block;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -22,6 +35,7 @@
           <li><a href="index.html" class="nav-link">Job Search</a></li>
           <li><a href="tracking.html" class="nav-link">Process Tracking</a></li>
           <li><a href="management.html" class="nav-link active">Job Management</a></li>
+          <li class="mobile-login-link"><a href="login.html" class="nav-link" style="color:var(--blue); font-weight:600;">Login</a></li>
         </ul>
       </nav>
 
@@ -46,7 +60,7 @@
           <h1>Job Management</h1>
           <p>Curate your professional future by managing your active vacancies and analyzing candidate pipelines.</p>
         </div>
-        <button class="btn-primary">
+        <button class="btn-primary" id="openPostJobModalBtn">
           <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
           </svg>
@@ -54,49 +68,16 @@
         </button>
       </div>
 
-      <!-- STATS -->
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-label">Total Views</div>
-          <div class="stat-value">
-            12.4k
-            <span class="stat-badge badge-green">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline-block;vertical-align:middle"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-              +14%
-            </span>
-          </div>
-          <div class="stat-bar-bg"><div class="stat-bar-fill fill-blue"></div></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Total Applicants</div>
-          <div class="stat-value">
-            842
-            <span class="stat-badge badge-teal">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline-block;vertical-align:middle"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-              48 New
-            </span>
-          </div>
-          <div class="stat-bar-bg"><div class="stat-bar-fill fill-teal"></div></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Interview Rate</div>
-          <div class="stat-value">
-            8.2%
-            <span class="stat-badge badge-orange" style="font-size:12px;">Industry Avg: 5%</span>
-          </div>
-          <div class="stat-bar-bg"><div class="stat-bar-fill fill-red"></div></div>
-        </div>
-      </div>
 
       <!-- ACTIVE POSTINGS -->
       <div class="section-card">
         <div class="section-header">
           <h2>Active Postings</h2>
           <div class="search-input">
-            <svg aria-hidden="true" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
-            <input type="text" placeholder="Filter jobs..." class="management-search" aria-label="Filter jobs">
+            <input type="text" id="jobFilterInput" placeholder="Filter jobs..." style="border:none; outline:none; background:transparent; width:100%; margin-left:8px;" />
           </div>
         </div>
 
@@ -104,112 +85,75 @@
           <!-- Table header -->
           <div class="table-head">
           <span>Job Title &amp; Details</span>
-          <span>Metrics</span>
-          <span>Applicants</span>
+          <span style="text-align:center">New Applicants</span>
           <span>Status</span>
           <span style="text-align:right">Actions</span>
         </div>
 
-        <!-- Row 1 -->
-        <div class="job-row">
-          <div>
-            <div class="job-title">Senior Product Designer</div>
-            <div class="job-meta">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              Remote &bull; Full-time
-            </div>
-          </div>
-          <div class="metrics-cell">
-            <div class="metric-pair">
-              <div>
-                <div class="metric-num">1,240</div>
-                <div class="metric-lbl">Views</div>
-              </div>
-              <div>
-                <div class="metric-num">4.2%</div>
-                <div class="metric-lbl">Conv.</div>
-              </div>
-            </div>
-          </div>
-          <div class="avatar-stack">
-            <div class="avatar av1">A</div>
-            <div class="avatar av2">B</div>
-            <div class="avatar av3">C</div>
-            <div class="avatar avatar-more">+49</div>
-          </div>
-          <div><span class="status-badge s-active">Active</span></div>
-          <div><a class="action-link">Manage</a></div>
-        </div>
-
-        <!-- Row 2 -->
-        <div class="job-row">
-          <div>
-            <div class="job-title">Staff Frontend Engineer</div>
-            <div class="job-meta">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              New York &bull; Hybrid
-            </div>
-          </div>
-          <div class="metrics-cell">
-            <div class="metric-pair">
-              <div>
-                <div class="metric-num">890</div>
-                <div class="metric-lbl">Views</div>
-              </div>
-              <div>
-                <div class="metric-num">3.1%</div>
-                <div class="metric-lbl">Conv.</div>
-              </div>
-            </div>
-          </div>
-          <div class="avatar-stack">
-            <div class="avatar av4">D</div>
-            <div class="avatar av5">E</div>
-            <div class="avatar avatar-more">+12</div>
-          </div>
-          <div><span class="status-badge s-draft">Draft</span></div>
-          <div><a class="action-link">Publish</a></div>
-        </div>
-
-        <!-- Row 3 -->
-        <div class="job-row">
-          <div>
-            <div class="job-title">Content Strategy Lead</div>
-            <div class="job-meta">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              London &bull; Contract
-            </div>
-          </div>
-          <div class="metrics-cell">
-            <div class="metric-pair">
-              <div>
-                <div class="metric-num">2,410</div>
-                <div class="metric-lbl">Views</div>
-              </div>
-              <div>
-                <div class="metric-num">12.8%</div>
-                <div class="metric-lbl">Conv.</div>
-              </div>
-            </div>
-          </div>
-          <div class="avatar-stack">
-            <div class="avatar av2">F</div>
-            <div class="avatar avatar-more">+300</div>
-          </div>
-          <div><span class="status-badge s-closing-soon">Closing Soon</span></div>
-          <div><a class="action-link">Manage</a></div>
-        </div>
+        <div id="activeJobsContainer"></div>
 
         </div>
 
-        <!-- View Archive -->
-        <div class="view-archive">
-          <a href="#">View Archive &rarr;</a>
-        </div>
+        <!-- Pagination -->
+        <div id="paginationContainer" style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 20px;"></div>
       </div>
 
     </div>
   </main>
+
+  <!-- Modal -->
+  <div id="companyModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:9999;">
+      <div class="modal-content" style="background:#fff; padding:30px; border-radius:12px; max-width:400px; width:90%; box-shadow:0 10px 25px rgba(0,0,0,0.1);">
+          <h2 style="margin-top:0; font-size:24px; color:#0f172a;">Register Company</h2>
+          <form id="companyForm" style="display:flex; flex-direction:column; gap:15px; margin-top:20px;">
+              <input type="text" id="compName" placeholder="Company Name" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              <input type="text" id="compLocation" placeholder="Location" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              <input type="text" id="compSector" placeholder="Sector" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              <textarea id="compDetails" placeholder="Description" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; min-height:80px;"></textarea>
+              <div style="display:flex; gap:10px; margin-top:10px;">
+                  <button type="button" id="closeModalBtn" class="btn-secondary" style="flex:1; border-radius:8px; padding:12px 22px; font-size:14px; font-weight:600; cursor:pointer; background:#f1f5f9; border:1px solid #cbd5e1; color:#0f172a; display:flex; justify-content:center; align-items:center; transition:background 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">Cancel</button>
+                  <button type="submit" class="btn-primary" style="flex:1; justify-content:center;">Register</button>
+              </div>
+          </form>
+      </div>
+  </div>
+
+  <!-- Post Job Modal -->
+  <div id="postJobModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:9999;">
+      <div class="modal-content" style="background:#fff; padding:30px; border-radius:12px; max-width:500px; width:90%; box-shadow:0 10px 25px rgba(0,0,0,0.1); max-height:90vh; overflow-y:auto;">
+          <h2 style="margin-top:0; font-size:24px; color:#0f172a;">Post a New Job</h2>
+          <form id="postJobForm" style="display:flex; flex-direction:column; gap:15px; margin-top:20px;">
+              <input type="text" id="jobTitle" placeholder="Job Title" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              <select id="jobCompany" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; background:#fff;">
+                  <option value="" disabled selected>Select Company</option>
+              </select>
+              <input type="text" id="jobLocation" placeholder="Location" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              <input type="text" id="jobSalary" placeholder="Salary (e.g. $100k - $130k)" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px;" />
+              
+              <div style="display:flex; gap:15px;">
+                  <select id="jobType" required style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; background:#fff;">
+                      <option value="" disabled selected>Job Type</option>
+                      <option value="full-time">Full-time</option>
+                      <option value="contract">Contract</option>
+                      <option value="remote">Remote</option>
+                  </select>
+                  <select id="jobExperience" required style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; background:#fff;">
+                      <option value="" disabled selected>Experience</option>
+                      <option value="entry">Entry Level</option>
+                      <option value="mid">Mid Level</option>
+                      <option value="exec">Executive</option>
+                  </select>
+              </div>
+
+              <textarea id="jobDescription" placeholder="Job Description" required style="padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:14px; min-height:100px;"></textarea>
+              
+              <div style="display:flex; gap:10px; margin-top:10px;">
+                  <button type="button" id="closePostJobModalBtn" class="btn-secondary" style="flex:1; border-radius:8px; padding:12px 22px; font-size:14px; font-weight:600; cursor:pointer; background:#f1f5f9; border:1px solid #cbd5e1; color:#0f172a; display:flex; justify-content:center; align-items:center; transition:background 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">Cancel</button>
+                  <button type="submit" class="btn-primary" style="flex:1; justify-content:center;">Post Job</button>
+              </div>
+          </form>
+      </div>
+  </div>
 
   <!-- ========== FOOTER ========== -->
   <footer class="site-footer">
@@ -227,6 +171,118 @@
   </footer>
 
   <script>
+    let allEmployerJobs = [];
+    let currentFilteredJobs = [];
+    let jobsPerPage = 3;
+    let currentPage = 1;
+
+    function renderJobs() {
+        const container = document.getElementById('activeJobsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        // Sort jobs before paginating
+        currentFilteredJobs.sort((a, b) => {
+            const countA = parseInt(a.new_applicants_count) || 0;
+            const countB = parseInt(b.new_applicants_count) || 0;
+            if (countA !== countB) return countB - countA;
+            
+            // If counts are equal, sort by created_at DESC
+            return new Date(b.created_at) - new Date(a.created_at);
+        });
+
+        const startIndex = (currentPage - 1) * jobsPerPage;
+        const endIndex = startIndex + jobsPerPage;
+        const displayJobs = currentFilteredJobs.slice(startIndex, endIndex);
+        
+        displayJobs.forEach(job => {
+            const row = document.createElement('div');
+            row.className = 'job-row';
+            
+            
+            let statusClass = 's-active';
+            if (job.status.toLowerCase() === 'closed') statusClass = 's-draft';
+            
+            const newCount = parseInt(job.new_applicants_count) || 0;
+            const titlePrefix = newCount > 0 ? '<span class="new-indicator"></span>' : '';
+            const countDisplay = newCount > 0 ? `<span style="color:var(--blue); font-weight:600;">${newCount}</span>` : '<span style="color:var(--gray);">-</span>';
+
+            row.innerHTML = `
+              <div>
+                <div class="job-title">${titlePrefix}${job.title}</div>
+                <div class="job-meta">
+                  <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  ${job.location} &bull; ${job.type}
+                </div>
+              </div>
+              <div style="text-align:center">${countDisplay}</div>
+              <div><span class="status-badge ${statusClass}">${job.status}</span></div>
+              <div style="text-align:right"><a class="action-link" href="manage-job.html?id=${job.id}">Manage</a></div>
+            `;
+            container.appendChild(row);
+        });
+
+        renderPagination();
+    }
+
+    function renderPagination() {
+        const paginationContainer = document.getElementById('paginationContainer');
+        if (!paginationContainer) return;
+        paginationContainer.innerHTML = '';
+
+        const totalPages = Math.ceil(currentFilteredJobs.length / jobsPerPage);
+        if (totalPages <= 1) return;
+
+        // Prev Button
+        const prevBtn = document.createElement('button');
+        prevBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+        prevBtn.className = 'page-btn' + (currentPage === 1 ? ' disabled' : '');
+        prevBtn.onclick = (e) => { e.preventDefault(); if (currentPage > 1) { currentPage--; renderJobs(); } };
+        paginationContainer.appendChild(prevBtn);
+
+        // Page Numbers
+        for (let i = 1; i <= totalPages; i++) {
+            let shouldRender = false;
+            let isDots = false;
+
+            if (totalPages <= 6) {
+                shouldRender = true;
+            } else {
+                if (currentPage <= 4) {
+                    if (i <= 5 || i === totalPages) shouldRender = true;
+                    else if (i === 6) isDots = true;
+                } else if (currentPage >= totalPages - 3) {
+                    if (i === 1 || i >= totalPages - 4) shouldRender = true;
+                    else if (i === totalPages - 5) isDots = true;
+                } else {
+                    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) shouldRender = true;
+                    else if (i === currentPage - 2 || i === currentPage + 2) isDots = true;
+                }
+            }
+
+            if (shouldRender) {
+                const pageBtn = document.createElement('button');
+                pageBtn.innerText = i;
+                pageBtn.className = 'page-btn' + (currentPage === i ? ' active' : '');
+                pageBtn.onclick = (e) => { e.preventDefault(); currentPage = i; renderJobs(); };
+                paginationContainer.appendChild(pageBtn);
+            } else if (isDots) {
+                const dots = document.createElement('span');
+                dots.innerText = '...';
+                dots.style.padding = '0 10px';
+                dots.style.color = 'var(--gray)';
+                paginationContainer.appendChild(dots);
+            }
+        }
+
+        // Next Button
+        const nextBtn = document.createElement('button');
+        nextBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+        nextBtn.className = 'page-btn' + (currentPage === totalPages ? ' disabled' : '');
+        nextBtn.onclick = (e) => { e.preventDefault(); if (currentPage < totalPages) { currentPage++; renderJobs(); } };
+        paginationContainer.appendChild(nextBtn);
+    }
+
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const mobileNav = document.getElementById('mobileNav');
 
@@ -236,6 +292,181 @@
         mobileNav.classList.toggle('open');
       });
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('api/check_auth.php').then(r=>r.json()).then(async data => {
+            const managementInner = document.querySelector('.management-inner');
+            if (!data.success) {
+                managementInner.innerHTML = `
+                    <div style="text-align:center; padding: 100px 20px;">
+                        <h2>Please Log In</h2>
+                        <p>You must be logged in to access the job management dashboard.</p>
+                        <a href="login.html" class="btn-login" style="display:inline-block; margin-top: 20px;">Login Here</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Handle Header & Mobile Nav Update
+            const headerActions = document.querySelector('.header-actions');
+            const mobileNavUl = document.querySelector('#mobileNav ul');
+            if (headerActions) {
+                const loginBtn = headerActions.querySelector('.btn-login');
+                if (loginBtn) {
+                    // Desktop Profile
+                    const userProfile = document.createElement('div');
+                    userProfile.className = 'desktop-profile';
+                    userProfile.style.display = 'flex';
+                    userProfile.style.alignItems = 'center'; userProfile.style.gap = '15px';
+                    userProfile.innerHTML = `<span style="font-weight: 500; font-size: 14px; color: #0f172a;">Welcome, ${data.data.name}</span><a href="#" class="btn-apply logout-btn">Logout</a>`;
+                    headerActions.insertBefore(userProfile, loginBtn);
+                    loginBtn.remove();
+                    
+                    // Add Mobile Profile logic
+                    if (mobileNavUl) {
+                        const mobileLogin = document.querySelector('.mobile-login-link');
+                        if (mobileLogin) mobileLogin.remove();
+
+                        const welcomeLi = document.createElement('li');
+                        welcomeLi.className = 'mobile-profile';
+                        welcomeLi.innerHTML = `<span style="display:block; font-weight:600; color:#0f172a; padding-bottom:16px; margin-bottom:8px; border-bottom:1px solid #e2e8f0;">Welcome, ${data.data.name}</span>`;
+                        mobileNavUl.insertBefore(welcomeLi, mobileNavUl.firstChild);
+
+                        const logoutLi = document.createElement('li');
+                        logoutLi.className = 'mobile-profile';
+                        logoutLi.innerHTML = `<a href="#" class="nav-link logout-btn" style="color:#ef4444; font-weight:600;">Logout</a>`;
+                        mobileNavUl.appendChild(logoutLi);
+                    }
+
+                    // Attach logout event listeners
+                    document.querySelectorAll('.logout-btn').forEach(btn => {
+                        btn.addEventListener('click', async (e) => {
+                            e.preventDefault(); await fetch('api/logout.php'); window.location.reload();
+                        });
+                    });
+                }
+            }
+
+            // Check if employer
+            if (data.data.role !== 'employer') {
+                managementInner.innerHTML = `
+                    <div style="text-align:center; padding: 100px 20px;">
+                        <h2>Register a Company</h2>
+                        <p style="color:#64748b; margin-top:10px;">You haven't registered a company yet. Register to start posting jobs.</p>
+                        <button id="openRegisterModal" class="btn-primary" style="margin: 20px auto 0; display: inline-flex; justify-content: center;">Register Company</button>
+                    </div>
+                `;
+
+                document.getElementById('openRegisterModal').addEventListener('click', () => {
+                    document.getElementById('companyModal').style.display = 'flex';
+                });
+            } else {
+                try {
+                    const resJobs = await fetch('api/employer_jobs.php');
+                    const jobsResult = await resJobs.json();
+                    if (jobsResult.success) {
+                        allEmployerJobs = jobsResult.data;
+                        currentFilteredJobs = allEmployerJobs;
+                        renderJobs();
+                    }
+                } catch (err) {
+                    console.error("Error fetching jobs:", err);
+                }
+            }
+        });
+
+        const filterInput = document.getElementById('jobFilterInput');
+        if (filterInput) {
+            filterInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                currentFilteredJobs = allEmployerJobs.filter(job => 
+                    job.title.toLowerCase().includes(query) || 
+                    job.location.toLowerCase().includes(query)
+                );
+                currentPage = 1; // Reset to page 1 on search
+                renderJobs();
+            });
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('companyModal');
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        document.getElementById('companyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                name: document.getElementById('compName').value,
+                location: document.getElementById('compLocation').value,
+                sector: document.getElementById('compSector').value,
+                details: document.getElementById('compDetails').value
+            };
+
+            const res = await fetch('api/companies.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const result = await res.json();
+            if (result.success) {
+                window.location.reload();
+            } else {
+                alert(result.message || 'Failed to register company.');
+            }
+        });
+        // Post Job Logic
+        const postJobModal = document.getElementById('postJobModal');
+        const openPostJobModalBtn = document.getElementById('openPostJobModalBtn');
+        const jobCompanySelect = document.getElementById('jobCompany');
+
+        if (openPostJobModalBtn) {
+            openPostJobModalBtn.addEventListener('click', async () => {
+                postJobModal.style.display = 'flex';
+                // Fetch companies to populate dropdown
+                const res = await fetch('api/companies.php');
+                const result = await res.json();
+                if (result.success && result.data.length > 0) {
+                    jobCompanySelect.innerHTML = '<option value="" disabled selected>Select Company</option>';
+                    result.data.forEach(company => {
+                        const option = document.createElement('option');
+                        option.value = company.id;
+                        option.textContent = company.name;
+                        jobCompanySelect.appendChild(option);
+                    });
+                }
+            });
+        }
+
+        document.getElementById('closePostJobModalBtn').addEventListener('click', () => {
+            postJobModal.style.display = 'none';
+        });
+
+        document.getElementById('postJobForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                title: document.getElementById('jobTitle').value,
+                company_id: document.getElementById('jobCompany').value,
+                location: document.getElementById('jobLocation').value,
+                salary: document.getElementById('jobSalary').value,
+                type: document.getElementById('jobType').value,
+                experience: document.getElementById('jobExperience').value,
+                description: document.getElementById('jobDescription').value
+            };
+
+            const res = await fetch('api/post_job.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const result = await res.json();
+            if (result.success) {
+                window.location.reload();
+            } else {
+                alert(result.message || 'Failed to post job.');
+            }
+        });
+    });
   </script>
 </body>
 </html>

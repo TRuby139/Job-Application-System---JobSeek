@@ -9,6 +9,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .mobile-profile, .mobile-login-link {
+      display: none;
+    }
+    @media (max-width: 740px) {
+      .desktop-profile, .btn-login {
+        display: none !important;
+      }
+      .mobile-profile, .mobile-login-link {
+        display: block;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -22,10 +35,11 @@
           <li><a href="index.html" class="nav-link active">Job Search</a></li>
           <li><a href="tracking.html" class="nav-link">Process Tracking</a></li>
           <li><a href="management.html" class="nav-link">Job Management</a></li>
+          <li class="mobile-login-link"><a href="login.html" class="nav-link" style="color:var(--blue); font-weight:600;">Login</a></li>
         </ul>
       </nav>
 
-      <div class="header-actions">
+      <div class="header-actions" id="headerActions">
         <a href="login.html" class="btn-login">Login</a>
         <button class="hamburger-btn" aria-label="Toggle menu" id="hamburgerBtn">
           <span></span>
@@ -87,15 +101,11 @@
         </div>
 
         <div class="filter-group">
-          <h3 class="filter-title">SALARY RANGE</h3>
-          <div class="salary-slider">
-            <div class="slider-track">
-              <div class="slider-fill"></div>
-              <div class="slider-thumb" style="left: 0%;"></div>
-              <div class="slider-thumb" style="left: 100%;"></div>
-            </div>
-            <div class="salary-labels">
-              <span>$50k</span>
+          <h3 class="filter-title">MINIMUM SALARY</h3>
+          <div class="salary-slider-container" style="padding-top: 10px;">
+            <input type="range" id="minSalaryInput" min="1" max="200" value="1" step="1" style="width: 100%;">
+            <div class="salary-labels" style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 14px; color: #64748b;">
+              <span id="salaryMinLabel">$1k</span>
               <span>$200k+</span>
             </div>
           </div>
@@ -132,82 +142,7 @@
           </div>
         </div>
 
-        <div class="job-list">
-          <!-- Job Card 1 -->
-          <article class="job-card">
-            <div class="job-card-main">
-              <div class="job-icon icon-blue">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              </div>
-              <div class="job-info">
-                <div class="job-title-row">
-                  <h3>Senior Product Designer</h3>
-                  <span class="badge-new">NEW</span>
-                </div>
-                <p class="job-company">Lumina Creative Systems &bull; New York, NY (Hybrid)</p>
-                <p class="job-desc">We are looking for a visionary Product Designer to lead our editorial design language. You will collaborate with cross-functional teams to build...</p>
-                <div class="job-tags">
-                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> $140k – $180k</span>
-                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Posted 2h ago</span>
-                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Full-time</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-card-actions">
-              <a href="job-details.html" class="btn-apply">Apply Now</a>
-              <button class="btn-bookmark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
-            </div>
-          </article>
-
-          <!-- Job Card 2 -->
-          <article class="job-card">
-            <div class="job-card-main">
-              <div class="job-icon icon-green">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M2 22s5-2 9-2c4 0 9 2 9 2S18 4 12 4 2 22 2 22z"/></svg>
-              </div>
-              <div class="job-info">
-                <div class="job-title-row">
-                  <h3>Lead Software Architect</h3>
-                </div>
-                <p class="job-company">GreenWave Solutions &bull; Remote</p>
-                <p class="job-desc">Join a high-growth sustainability startup as a Lead Architect. You will be responsible for scaling our cloud infrastructure and mentoring a team of...</p>
-                <div class="job-tags">
-                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> $190k – $220k</span>
-                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Posted 5h ago</span>
-                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Contract</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-card-actions">
-              <a href="job-details.html" class="btn-apply">Apply Now</a>
-              <button class="btn-bookmark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
-            </div>
-          </article>
-
-          <!-- Job Card 3 -->
-          <article class="job-card">
-            <div class="job-card-main">
-              <div class="job-icon icon-orange">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
-              </div>
-              <div class="job-info">
-                <div class="job-title-row">
-                  <h3>Marketing Strategist</h3>
-                </div>
-                <p class="job-company">Vantage Media &bull; San Francisco, CA</p>
-                <p class="job-desc">Drive market growth for high-impact media brands. We need a strategist who understands the intersection of data-driven insights and premium...</p>
-                <div class="job-tags">
-                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> $110k – $150k</span>
-                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Posted 1d ago</span>
-                  <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Full-time</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-card-actions">
-              <a href="job-details.html" class="btn-apply">Apply Now</a>
-              <button class="btn-bookmark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
-            </div>
-          </article>
+        <div class="job-list" id="jobList">
         </div>
 
         <div class="pagination">
@@ -259,6 +194,258 @@
         }
       });
     }
+
+    let currentPage = 1;
+
+    function fetchJobs() {
+      // Gather inputs
+      const searchInput = document.querySelector('.hero-search-bar input[placeholder="Job title, keywords, or company"]').value;
+      const locInput = document.querySelector('.hero-search-bar input[placeholder="City or remote"]').value;
+      
+      const typeCheckboxes = document.querySelectorAll('input[name="jobType"]:checked');
+      const types = Array.from(typeCheckboxes).map(cb => cb.value).join(',');
+      
+      const expRadio = document.querySelector('input[name="experience"]:checked');
+      const exp = expRadio ? expRadio.value : '';
+      
+      const minSalary = document.getElementById('minSalaryInput') ? document.getElementById('minSalaryInput').value : '';
+
+      // Build query string
+      const params = new URLSearchParams();
+      if (searchInput) params.append('q', searchInput);
+      if (locInput) params.append('loc', locInput);
+      if (types) params.append('type', types);
+      if (exp) params.append('experience', exp);
+      if (minSalary && minSalary > 50) params.append('min_salary', minSalary);
+      params.append('page', currentPage);
+      params.append('limit', 8);
+
+      fetch('api/search_jobs.php?' + params.toString())
+        .then(res => res.json())
+        .then(data => {
+          const jobList = document.getElementById('jobList');
+          
+          const escapeHTML = (str) => {
+              const div = document.createElement('div');
+              div.textContent = str;
+              return div.innerHTML;
+          };
+
+          if (data.success && data.data) {
+            const jobsData = data.data.jobs;
+            const total = data.data.total;
+            const totalPages = data.data.totalPages;
+
+            jobList.innerHTML = '';
+            document.querySelector('.results-header h2').innerHTML = `<strong>${total}</strong> Opportunities found`;
+            
+            let htmlString = '';
+            if (jobsData.length === 0) {
+               htmlString = `<p style="padding: 20px; color: #64748b;">No opportunities matched your criteria.</p>`;
+            } else {
+              jobsData.forEach(job => {
+              const shortDesc = job.description && job.description.length > 120 
+                ? job.description.substring(0, 120) + '...' 
+                : (job.description || '');
+              
+              const title = escapeHTML(job.title || '');
+              const companyName = escapeHTML(job.company_name || '');
+              const location = escapeHTML(job.location || '');
+              const desc = escapeHTML(shortDesc);
+              const salary = escapeHTML(job.salary || 'Competitive');
+              const isSaved = job.is_saved ? 'currentColor' : 'none';
+
+              htmlString += `
+                <article class="job-card">
+                  <div class="job-card-main">
+                    <div class="job-icon icon-blue">
+                      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <div class="job-info">
+                      <div class="job-title-row">
+                        <h3>${title}</h3>
+                        <span class="badge-new">NEW</span>
+                      </div>
+                      <p class="job-company">${companyName} &bull; ${location}</p>
+                      <p class="job-desc">${desc}</p>
+                      <div class="job-tags">
+                        <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> ${salary}</span>
+                        <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Full-time</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="job-card-actions">
+                    <a href="job-details.html?id=${job.id}" class="btn-apply">Apply Now</a>
+                    <button class="btn-bookmark" onclick="saveJob(${job.id}, this)"><svg viewBox="0 0 24 24" width="16" height="16" fill="${isSaved}" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+                  </div>
+                </article>
+              `;
+              });
+            }
+            jobList.innerHTML = htmlString;
+            renderPagination(totalPages);
+          } else {
+            jobList.innerHTML = `<p style="padding: 20px; color: red;">Error: ${escapeHTML(data.message || 'Could not fetch jobs.')}</p>`;
+            document.querySelector('.results-header h2').innerHTML = `<strong>0</strong> Opportunities found`;
+            renderPagination(0);
+          }
+        })
+        .catch(err => {
+            console.error("Error fetching jobs:", err);
+            document.getElementById('jobList').innerHTML = `<p style="padding: 20px; color: red;">Error connecting to the server.</p>`;
+            document.querySelector('.results-header h2').innerHTML = `<strong>0</strong> Opportunities found`;
+            renderPagination(0);
+        });
+    }
+
+    function renderPagination(totalPages) {
+      const paginationContainer = document.querySelector('.pagination');
+      if (!paginationContainer) return;
+
+      if (totalPages <= 1) {
+          paginationContainer.innerHTML = '';
+          return;
+      }
+
+      let html = '';
+      
+      html += `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>`;
+
+      for (let i = 1; i <= totalPages; i++) {
+          let shouldRender = false;
+          let isDots = false;
+
+          if (totalPages <= 6) {
+              shouldRender = true;
+          } else {
+              if (currentPage <= 4) {
+                  if (i <= 5 || i === totalPages) shouldRender = true;
+                  else if (i === 6) isDots = true;
+              } else if (currentPage >= totalPages - 3) {
+                  if (i === 1 || i >= totalPages - 4) shouldRender = true;
+                  else if (i === totalPages - 5) isDots = true;
+              } else {
+                  if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) shouldRender = true;
+                  else if (i === currentPage - 2 || i === currentPage + 2) isDots = true;
+              }
+          }
+
+          if (shouldRender) {
+              html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+          } else if (isDots) {
+              html += `<span class="page-dots" style="padding: 0 10px; color: var(--gray);">...</span>`;
+          }
+      }
+
+      html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>`;
+
+      paginationContainer.innerHTML = html;
+    }
+
+    window.goToPage = function(page) {
+      currentPage = page;
+      fetchJobs();
+      window.scrollTo({ top: document.querySelector('.search-container').offsetTop - 50, behavior: 'smooth' });
+    };
+
+    window.saveJob = async function(jobId, btn) {
+      try {
+        const res = await fetch('api/save_job.php', {
+          method: 'POST',
+          body: JSON.stringify({job_id: jobId})
+        });
+        const data = await res.json();
+        if(data.success) {
+          if(data.message === 'Job saved') {
+             btn.querySelector('svg').setAttribute('fill', 'currentColor');
+          } else {
+             btn.querySelector('svg').setAttribute('fill', 'none');
+          }
+        } else {
+          alert(data.message || 'Error saving job. Please log in.');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchJobs();
+
+      // Check auth state
+      fetch('api/check_auth.php')
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const headerActions = document.querySelector('.header-actions');
+                const mobileNavUl = document.querySelector('#mobileNav ul');
+                if (headerActions) {
+                    const loginBtn = headerActions.querySelector('.btn-login');
+                    if (loginBtn) {
+                        // Desktop Profile
+                        const userProfile = document.createElement('div');
+                        userProfile.className = 'desktop-profile';
+                        userProfile.style.display = 'flex';
+                        userProfile.style.alignItems = 'center'; userProfile.style.gap = '15px';
+                        userProfile.innerHTML = `<span style="font-weight: 500; font-size: 14px; color: #0f172a;">Welcome, ${data.data.name}</span><a href="#" class="btn-apply logout-btn">Logout</a>`;
+                        headerActions.insertBefore(userProfile, loginBtn);
+                        loginBtn.remove();
+                        
+                        // Add Mobile Profile logic
+                        if (mobileNavUl) {
+                            const mobileLogin = document.querySelector('.mobile-login-link');
+                            if (mobileLogin) mobileLogin.remove();
+
+                            const welcomeLi = document.createElement('li');
+                            welcomeLi.className = 'mobile-profile';
+                            welcomeLi.innerHTML = `<span style="display:block; font-weight:600; color:#0f172a; padding-bottom:16px; margin-bottom:8px; border-bottom:1px solid #e2e8f0;">Welcome, ${data.data.name}</span>`;
+                            mobileNavUl.insertBefore(welcomeLi, mobileNavUl.firstChild);
+
+                            const logoutLi = document.createElement('li');
+                            logoutLi.className = 'mobile-profile';
+                            logoutLi.innerHTML = `<a href="#" class="nav-link logout-btn" style="color:#ef4444; font-weight:600;">Logout</a>`;
+                            mobileNavUl.appendChild(logoutLi);
+                        }
+
+                        // Attach logout event listeners
+                        document.querySelectorAll('.logout-btn').forEach(btn => {
+                            btn.addEventListener('click', async (e) => {
+                                e.preventDefault(); await fetch('api/logout.php'); window.location.reload();
+                            });
+                        });
+                    }
+                }
+            }
+        });
+
+      const searchForm = document.querySelector('.hero-search-bar');
+      if (searchForm) {
+          searchForm.addEventListener('submit', (e) => {
+              e.preventDefault();
+              currentPage = 1;
+              fetchJobs();
+          });
+      }
+
+      const filterInputs = document.querySelectorAll('#filterContent input[type="checkbox"], #filterContent input[type="radio"]');
+      filterInputs.forEach(input => {
+          input.addEventListener('change', () => {
+              currentPage = 1;
+              fetchJobs();
+          });
+      });
+
+      const minSalaryInput = document.getElementById('minSalaryInput');
+      if (minSalaryInput) {
+          minSalaryInput.addEventListener('input', (e) => {
+              document.getElementById('salaryMinLabel').textContent = '$' + e.target.value + 'k';
+          });
+          minSalaryInput.addEventListener('change', () => {
+              currentPage = 1;
+              fetchJobs();
+          });
+      }
+    });
   </script>
 </body>
 </html>

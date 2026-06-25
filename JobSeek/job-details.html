@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Senior Product Experience Designer - JobSeek</title>
+  <title id="pageTitle">Job Details - JobSeek</title>
   <link rel="icon" type="image/png" href="./picture/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,6 +36,7 @@
     </div>
   </header>
 
+
   <!-- ========== MAIN CONTENT ========== -->
   <main class="page-body">
     <div class="content-grid">
@@ -48,7 +49,8 @@
           <span class="posted-time">Posted 2 hours ago</span>
         </div>
 
-        <h1 class="job-title">Senior Product Experience Designer</h1>
+        <h1 class="job-title" id="jobTitle">Loading...</h1>
+        <p class="job-company job-company-details" id="companyName"></p>
 
         <div class="job-meta">
           <span class="meta-item">
@@ -56,7 +58,7 @@
               <path d="M12 22s7-7.58 7-12.5A7 7 0 0 0 5 9.5C5 14.42 12 22 12 22z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
               <circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.8"/>
             </svg>
-            San Francisco, CA / Remote
+            <span id="jobLocation">Loading...</span>
           </span>
 
           <span class="meta-item">
@@ -65,7 +67,7 @@
               <path d="M2.5 10h19" stroke="currentColor" stroke-width="1.8"/>
               <circle cx="16.5" cy="14" r="1.6" fill="currentColor"/>
             </svg>
-            $140k – $190k
+            <span id="jobSalary">Loading...</span>
           </span>
 
           <span class="meta-item">
@@ -74,46 +76,19 @@
               <path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" stroke="currentColor" stroke-width="1.8"/>
               <path d="M2.5 13h19" stroke="currentColor" stroke-width="1.8"/>
             </svg>
-            Full-time
+            <span id="jobType">Full-time</span>
           </span>
         </div>
 
-        <div class="job-image">
-          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop" alt="Modern open-plan office workspace" width="1600" height="320">
+        <h2 class="section-title">The Role</h2>
+        <div class="section-text" id="jobDescription">
+          Loading...
         </div>
 
-        <h2 class="section-title">The Role</h2>
-        <p class="section-text">
-          We are seeking an Editorial-minded Product Designer to lead the vision for our next-generation career platform. You will be responsible for defining the visual language that makes job seeking feel like a premium experience. You'll bridge the gap between high-end digital publishing and functional SaaS tooling.
-        </p>
-
-        <h2 class="section-title">What you'll do</h2>
-        <ul class="checklist">
-          <li class="check-item">
-            <span class="check-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span>Architect complex design systems rooted in editorial typography and tonal layering.</span>
-          </li>
-          <li class="check-item">
-            <span class="check-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span>Collaborate with cross-functional teams to translate user pain points into elegant UI solutions.</span>
-          </li>
-          <li class="check-item">
-            <span class="check-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span>Maintain the highest standards of craft, focusing on micro-interactions and motion design.</span>
-          </li>
-        </ul>
+        <h2 class="section-title">About the Company</h2>
+        <div class="section-text" id="companyDetails">
+          Loading...
+        </div>
 
       </section>
 
@@ -123,16 +98,9 @@
         <div class="quick-apply-card">
           <h2 class="card-title">Quick Apply</h2>
 
-          <form class="apply-form" onsubmit="return false;">
-            <div class="form-group">
-              <label for="fullName" class="form-label">Full Name</label>
-              <input type="text" id="fullName" class="form-input" placeholder="Jane Doe">
-            </div>
+          <form class="apply-form">
+            <input type="hidden" id="job-id" name="job_id">
 
-            <div class="form-group">
-              <label for="email" class="form-label">Email Address</label>
-              <input type="email" id="email" class="form-input" placeholder="jane@example.com">
-            </div>
 
             <div class="form-group">
               <label class="form-label">Resume / CV</label>
@@ -200,6 +168,202 @@
         mobileNav.classList.toggle('open');
       });
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Dynamic Header Logic
+      fetch('api/check_auth.php').then(r=>r.json()).then(data => {
+          const headerActions = document.querySelector('.header-actions');
+          const mobileNavUl = document.querySelector('#mobileNav ul');
+          if (data.success && headerActions) {
+              const loginBtn = headerActions.querySelector('.btn-login');
+              if (loginBtn) {
+                  // Desktop Profile
+                  const userProfile = document.createElement('div');
+                  userProfile.className = 'desktop-profile';
+                  userProfile.style.display = 'flex';
+                  userProfile.style.alignItems = 'center'; userProfile.style.gap = '15px';
+                  userProfile.innerHTML = `<span style="font-weight: 500; font-size: 14px; color: #0f172a;">Welcome, ${data.data.name}</span><a href="#" class="btn-apply logout-btn" style="padding: 10px 20px;">Logout</a>`;
+                  headerActions.insertBefore(userProfile, loginBtn);
+                  loginBtn.remove();
+                  
+                  // Mobile Profile logic
+                  if (mobileNavUl) {
+                      const mobileLogin = document.querySelector('.mobile-login-link');
+                      if (mobileLogin) mobileLogin.remove();
+
+                      const welcomeLi = document.createElement('li');
+                      welcomeLi.className = 'mobile-profile';
+                      welcomeLi.innerHTML = `<span style="display:block; font-weight:600; color:#0f172a; padding-bottom:16px; margin-bottom:8px; border-bottom:1px solid #e2e8f0;">Welcome, ${data.data.name}</span>`;
+                      mobileNavUl.insertBefore(welcomeLi, mobileNavUl.firstChild);
+
+                      const logoutLi = document.createElement('li');
+                      logoutLi.className = 'mobile-profile';
+                      logoutLi.innerHTML = `<a href="#" class="nav-link logout-btn" style="color:#ef4444; font-weight:600;">Logout</a>`;
+                      mobileNavUl.appendChild(logoutLi);
+                  }
+
+                  // Attach logout event listeners
+                  document.querySelectorAll('.logout-btn').forEach(btn => {
+                      btn.addEventListener('click', async (e) => {
+                          e.preventDefault(); await fetch('api/logout.php'); window.location.reload();
+                      });
+                  });
+              }
+          }
+      });
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const jobId = urlParams.get('id');
+
+      if (jobId) {
+        const jobIdInput = document.getElementById('job-id');
+        if (jobIdInput) jobIdInput.value = jobId;
+        
+        fetch(`api/get_job.php?id=${jobId}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.success && data.data) {
+              const job = data.data;
+              document.getElementById('pageTitle').textContent = `${job.title} - JobSeek`;
+              document.getElementById('jobTitle').textContent = job.title;
+              document.getElementById('companyName').textContent = job.company_name;
+              document.getElementById('jobLocation').textContent = job.location;
+              document.getElementById('jobSalary').textContent = job.salary || 'Competitive';
+              document.getElementById('jobDescription').textContent = job.description;
+              
+              if (job.company_details) {
+                document.getElementById('companyDetails').textContent = job.company_details;
+              } else {
+                document.getElementById('companyDetails').style.display = 'none';
+                document.getElementById('companyDetails').previousElementSibling.style.display = 'none';
+              }
+
+              // Check if job is closed or closing_date has passed
+              let isClosed = job.status === 'Closed';
+              if (!isClosed && job.closing_date) {
+                  const closingDate = new Date(job.closing_date);
+                  const today = new Date();
+                  today.setHours(0,0,0,0);
+                  if (closingDate < today) {
+                      isClosed = true;
+                  }
+              }
+
+              if (isClosed) {
+                  const applyForm = document.querySelector('.apply-form');
+                  if (applyForm) {
+                      applyForm.innerHTML = '<div style="padding: 20px; background: #fee2e2; color: #991b1b; border-radius: 8px; text-align: center; font-weight: 600;">This job is no longer accepting applications.</div>';
+                  }
+              }
+
+            } else {
+              document.getElementById('jobTitle').textContent = 'Job Not Found';
+              document.getElementById('jobDescription').textContent = data.message || 'The requested job does not exist.';
+            }
+          })
+          .catch(err => {
+            console.error('Error fetching job details:', err);
+            document.getElementById('jobTitle').textContent = 'Error Loading Job';
+          });
+      } else {
+        window.location.href = 'index.html';
+      }
+
+      // Resume Upload Box Logic
+      const resumeUpload = document.getElementById('resumeUpload');
+      const uploadBox = document.querySelector('.upload-box');
+      const uploadIcon = document.querySelector('.upload-icon');
+      const uploadText = document.querySelector('.upload-text');
+      const uploadHint = document.querySelector('.upload-hint');
+
+      if (resumeUpload && uploadBox) {
+        resumeUpload.addEventListener('change', (e) => {
+          if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+            const fileName = file.name;
+            const ext = fileName.split('.').pop().toLowerCase();
+            
+            uploadText.textContent = fileName;
+            uploadHint.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+            
+            if (ext === 'pdf') {
+              uploadBox.style.backgroundColor = '#fee2e2'; // light red
+              uploadBox.style.borderColor = '#f87171';
+              uploadText.style.color = '#991b1b';
+              uploadIcon.style.color = '#dc2626';
+              uploadIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M14 2v6h6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <text x="7" y="17" font-size="6" font-family="sans-serif" font-weight="bold" fill="currentColor" stroke="none">PDF</text>
+              </svg>`;
+            } else if (ext === 'doc' || ext === 'docx') {
+              uploadBox.style.backgroundColor = '#e0f2fe'; // light blue
+              uploadBox.style.borderColor = '#38bdf8';
+              uploadText.style.color = '#075985';
+              uploadIcon.style.color = '#0284c7';
+              uploadIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M14 2v6h6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <text x="6" y="17" font-size="5" font-family="sans-serif" font-weight="bold" fill="currentColor" stroke="none">DOCX</text>
+              </svg>`;
+            }
+          }
+        });
+      }
+
+      const applyForm = document.querySelector('.apply-form');
+      if (applyForm) {
+        applyForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          
+          const jobIdInput = document.getElementById('job-id');
+          
+          if (!jobIdInput.value) {
+            alert('Invalid Job ID.');
+            return;
+          }
+          
+          if (!resumeUpload.files || resumeUpload.files.length === 0) {
+            alert('Please upload a resume.');
+            return;
+          }
+
+          const formData = new FormData();
+          formData.append('job_id', jobIdInput.value);
+          formData.append('resume', resumeUpload.files[0]);
+
+          fetch('api/apply_job.php', {
+            method: 'POST',
+            body: formData
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              alert(data.message || 'Application submitted successfully.');
+              applyForm.reset();
+              // Reset upload UI
+              uploadBox.style.backgroundColor = '';
+              uploadBox.style.borderColor = '';
+              uploadText.style.color = '';
+              uploadIcon.style.color = '';
+              uploadText.textContent = 'Drag and drop your resume here';
+              uploadHint.textContent = 'PDF, DOCX (Max 10MB)';
+              uploadIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M14 2v6h6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M12 18v-6m0 0l-2.3 2.3M12 12l2.3 2.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>`;
+            } else {
+              alert(data.message || 'Failed to submit application.');
+            }
+          })
+          .catch(err => {
+            console.error('Error submitting application:', err);
+            alert('An error occurred while submitting your application.');
+          });
+        });
+      }
+    });
   </script>
 </body>
 </html>
