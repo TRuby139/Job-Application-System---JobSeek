@@ -2038,7 +2038,6 @@ img {
 .form-options .checkbox-label {
   margin-bottom: 0;
   flex-shrink: 0;
-}
   box-shadow: 0 20px 40px rgba(0,0,0,0.04);
   margin-bottom: 24px;
 }
